@@ -1,4 +1,8 @@
+# TvM Assistant
+
 TvM Assistant is a Discord bot with utility functions to make hosting TvMs easier. You can invite it to your server by using [this link](https://discordapp.com/api/oauth2/authorize?client_id=680383600725590020&permissions=268494928&scope=bot). Inviting the bot will give it `Manage Channels`, `Manage Roles`, `Manage Messages`, `Add Reactions` and `Embed Links` permissions in addition to `Read` and `Send` messages perm.
+
+---
 
 It has the following commands:
 
