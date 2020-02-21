@@ -1,0 +1,14 @@
+{
+    "author" : "AriusX7",
+    "install_msg" : "Thank you for installing the TvM cog.",
+    "name" : "TvM",
+    "short" : "A cog to help with hosting TvMs.",
+    "description" : "A cog with utility functions to make hosting TvMs easier.",
+    "tags": [
+		"tvm",
+        "games",
+        "mafia",
+        "town",
+        "werewolf"
+	]
+}
