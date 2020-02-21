@@ -7,9 +7,13 @@ It has the following commands:
 ## Roles Setup
 
 `-tvm hostrole <role>`: Set the host role.
+
 `-tvm playerrole <role>`: Set the player role.
+
 `-tvm specrole <role>`: Set the spectator role.
+
 `-tvm deadrole <role>`: Set the dead player role.
+
 `-tvm replrole <role>`: Set the replacement role.
 
 `-tvm setroles`: Set up all the 5 roles automatically.
@@ -17,31 +21,45 @@ It has the following commands:
 ## Channels
 
 `-tvm nachannel <channel>`: Set the channel where night actions are relayed.
+
 `-tvm signup <channel>`: Set sign-ups channel.
+
 `-playerchats [category_name]`: Set up private channels for all players. It also sets up individual channels for players who are mafia. Remove those manually. You can also specify a category name for the channels. Alias: `-pc [category_name]`
+
 `-mafiachat <user1> <user2>...`: Set up mafia chat for users specified. Example: `-mafiachat Arius#5544 @Ligi Siris#4421`. Alias: `-mafchat user1 user2...`
+
 `-specchat [channel]` : Create spectator chat or fix permissions of an existing channel.
 
 ## TvM Specific Settings
 
 `- tvm changena`: Toggle if user can change their night action once submitted. Defaults to `True`.
+
 `-tvm total <number>`: Total number of players that can sign-up for the game. Defaults to `12`.
+
 `-tvm signopen`: Allow people to sign-up. On by default.
+
 `-tvm signclose`: Close sign-ups.
+
 `-tvm lock`: Lock these and role and channel settings (commands that begin with `tvm`). Useful once the configuration is done so you don't accidentally mess things up mid-game.
+
 `-tvm unlock`: Unlock TvM settings.
+
 `-tvm settings`: View TvM settings. Alias: `-tvm show`
 
 ## User Commands
 
 `-in [ignored]`: Sign-up for the TvM. Automatically assigns the Player role and removes Spec and Replacement roles, if necessary. You can type anything you want after `-in`.
+
 `-out [ignored]`: Sign-out of the TvM or spectate it. Automatically assigns the Spectator role and removes Player and Replacement roles, if necessary. You can type anything you want after `-out`. Alias: `-spec`
+
 `-repl [ignored]`: Sign-up as a replacement. Automatically assigns the Replacement role and removes Player and Spectator roles, if necessary. You can type anything you want after `-repl`.
+
 `-nightaction <action>`: Your night action. It can only be used in your own private channel. `action` can be any text. You may not be able to update your night action if host has disabled that setting. Alias: `-na <action>`
 
 ## Misc
 
 `-host <user>`: Give the specified user `host` role.
+
 `-rand <players> <roles>`: Randomly assign a role to a player from the pool. The command should follow the pattern used in this example: `-rand "player1name, player2name, player3name, ..." role1, role2, role3, ...`. Notice the quotes (`"`). Number of players should be equal to number of roles. You can duplicate roles.
 
 ## Parameters
