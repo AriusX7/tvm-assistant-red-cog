@@ -1,5 +1,5 @@
 from discord.ext.commands import CheckFailure
-from redbot.core import commands, checks
+from redbot.core import commands
 
 
 class TvMSettingsLocked(CheckFailure):
@@ -43,7 +43,7 @@ def is_host_or_admin():
 
     async def predicate(ctx: commands.Context):
 
-        if await checks.is_admin_or_superior(ctx):
+        if ctx.author.guild_permissions.administrator:
             return True
 
         cog = ctx.cog
