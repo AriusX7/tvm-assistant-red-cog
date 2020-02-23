@@ -259,6 +259,55 @@ class TvM(commands.Cog):
 
         await ctx.message.add_reaction(CHECK_MARK)
 
+    @_tvm.command(name="setchannels")
+    @tvmset_lock()
+    async def _set_channels(self, ctx: Context):
+        """Set up all required channels."""
+
+        guild: discord.Guild = ctx.guild
+
+        signup = await guild.create_text_channel("sign-ups")
+        await self.config.guild(guild).signup_channel.set(signup.id)
+
+        host_role = await self.role_from_config(guild, "host_id")
+
+        na_overwrites = {
+            guild.default_role: discord.PermissionOverwrite(
+                read_messages=False
+            ),
+            host_role: discord.PermissionOverwrite(
+                read_messages=True,
+                send_messages=True
+            ),
+            guild.me: discord.PermissionOverwrite(
+                read_messages=True,
+                send_messages=True
+            )
+        }
+
+        nightaction = await guild.create_text_channel(
+            "night-action", overwrites=na_overwrites
+        )
+        await self.config.guild(guild).na_channel_id.set(nightaction.id)
+
+        txt = _(
+            "Sign-ups: {}"
+            "\nNight Actions: {}"
+        ).format(
+            signup.mention,
+            nightaction.mention,
+        )
+
+        embed = discord.Embed(
+            color=0x37BFFF, title="Created Channels!", description=txt
+        )
+
+        try:
+            await ctx.send(embed=embed)
+        except discord.Forbidden:
+            await ctx.send("Created required channels!")
+            await ctx.send(txt)
+
     @_tvm.command(name="changena")
     @tvmset_lock()
     async def _can_change_na(self, ctx: Context):
@@ -771,6 +820,10 @@ class TvM(commands.Cog):
             f"night-{number}", overwrites=night_overwrites
         )
 
+        await self.config.guild(guild).na_submitted.clear()
+
+        await ctx.send(_("Created cycle {} channels!").format(number))
+
     @commands.command(name="kill")
     @commands.guild_only()
     @is_host_or_admin()
@@ -821,6 +874,131 @@ class TvM(commands.Cog):
         await self.config.guild(guild).signed.set(signed)
 
         await ctx.send(_("Synced total number of signed-up players."))
+
+    @commands.group(name="clear")
+    @commands.guild_only()
+    @is_host_or_admin()
+    async def _clear(self, ctx: Context):
+        """Clear various database settings."""
+
+        if not ctx.invoked_subcommand:
+            pass
+
+    @_clear.command(name="nasubmitted")
+    async def _clear_na_submitted(self, ctx: Context):
+        """Clear the list of users who have submitted the NA this cycle."""
+
+        await self.config.guild(ctx.guild).na_submitted.clear()
+
+        await ctx.message.add_reaction(CHECK_MARK)
+
+    @_clear.command(name="player")
+    async def _clear_player(self, ctx: Context):
+        """Remove the player role from database."""
+
+        await self.config.guild(ctx.guild).player_id.clear()
+
+        await ctx.message.add_reaction(CHECK_MARK)
+
+    @_clear.command(name="spec", aliases=["spectator"])
+    async def _clear_spec(self, ctx: Context):
+        """Remove the spectator role from database."""
+
+        await self.config.guild(ctx.guild).spec_id.clear()
+
+        await ctx.message.add_reaction(CHECK_MARK)
+
+    @_clear.command(name="dead")
+    async def _clear_dead(self, ctx: Context):
+        """Remove the dead player role from database."""
+
+        await self.config.guild(ctx.guild).dead_id.clear()
+
+        await ctx.message.add_reaction(CHECK_MARK)
+
+    @_clear.command(name="repl", aliases=["replacement"])
+    async def _clear_repl(self, ctx: Context):
+        """Remove the replacement role from database."""
+
+        await self.config.guild(ctx.guild).repl_id.clear()
+
+        await ctx.message.add_reaction(CHECK_MARK)
+
+    @_clear.command(name="host")
+    async def _clear_host(self, ctx: Context):
+        """Remove the host role from database."""
+
+        await self.config.guild(ctx.guild).host_id.clear()
+
+        await ctx.message.add_reaction(CHECK_MARK)
+
+    @_clear.command(name="signups")
+    async def _clear_signups(self, ctx: Context):
+        """Remove sign-ups channel from database."""
+
+        await self.config.guild(ctx.guild).signup_channel.clear()
+
+        await ctx.message.add_reaction(CHECK_MARK)
+
+    @_clear.command(name="nachannel")
+    async def _clear_na_channel(self, ctx: Context):
+        """Remove night action channel from database."""
+
+        await self.config.guild(ctx.guild).na_channel_id.clear()
+
+        await ctx.message.add_reaction(CHECK_MARK)
+
+    @commands.command(name="players")
+    @commands.guild_only()
+    @player_role_exists()
+    async def _players(self, ctx: Context):
+        """List of users with Player role."""
+
+        guild = ctx.guild
+
+        player_role = await self.role_from_config(guild, "player_id")
+
+        players = [
+            user.mention for user in guild.members if player_role in user.roles
+        ]
+
+        title = _("Total Players: {}").format(len(players))
+        txt = "\n".join(players)
+
+        embed = discord.Embed(
+            colour=player_role.color, title=title, description=txt
+        )
+
+        try:
+            await ctx.send(embed=embed)
+        except discord.Forbidden:
+            await ctx.send("I need embed permissions for this command.")
+
+    @commands.command(name="replacements")
+    @commands.guild_only()
+    @repl_role_exists()
+    async def _replacements(self, ctx: Context):
+        """List of users with Replacement role."""
+
+        guild = ctx.guild
+
+        repl_role = await self.role_from_config(guild, "player_id")
+
+        repls = [
+            user.mention for user in guild.members if repl_role in user.roles
+        ]
+
+        title = _("Total Replacements: {}").format(len(repls))
+        txt = "\n".join(repls)
+
+        embed = discord.Embed(
+            colour=repl_role.color, title=title, description=txt
+        )
+
+        try:
+            await ctx.send(embed=embed)
+        except discord.Forbidden:
+            await ctx.send("I need embed permissions for this command.")
 
     async def check_na_channel(self, guild: discord.Guild):
         """Check if night action channel exists.
@@ -937,3 +1115,10 @@ class TvM(commands.Cog):
 
         if player_role in author.roles:
             await self.config.guild(guild).signed.set(old-1)
+
+    async def role_from_config(self, guild: discord.Guild, iden: str):
+        """Return `iden` role from the guild database."""
+
+        id_ = await getattr(self.config.guild(guild), iden)()
+
+        return discord.utils.get(guild.roles, id=id_)
