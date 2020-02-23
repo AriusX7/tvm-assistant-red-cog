@@ -1,4 +1,5 @@
 # import logging
+import re
 import secrets
 
 import discord
@@ -38,6 +39,9 @@ default_guild = {
 }
 
 CHECK_MARK = "\N{WHITE HEAVY CHECK MARK}"
+vote_regex = re.compile(r"\*?\*?[Vv][Tt][Ll]\*?\*? (\S+)")
+# no_vote_regex = re.compile(r"\*?\*?[Vv][Tt][Nn][Ll]\*?\*?")
+# un_vote_regex = re.compile(r"\*?\*?[Uu][Nn][Vv][Tt][Ll]\*?\*? (\S+)")
 
 
 @cog_i18n(_)
@@ -1000,6 +1004,83 @@ class TvM(commands.Cog):
         except discord.Forbidden:
             await ctx.send("I need embed permissions for this command.")
 
+    @commands.command(name="votecount", aliases=["vc"])
+    @commands.guild_only()
+    async def _voice_count(
+        self, ctx: Context, *, channel: discord.TextChannel = None
+    ):
+        """Count votes!"""
+
+        guild: discord.Guild = ctx.guild
+
+        if not channel:
+            channel = await self.get_vote_channel(guild)
+            if isinstance(channel, str):
+                return await ctx.send(channel)
+
+        user_votes = {}
+
+        async for message in channel.history(oldest_first=True):
+            author = message.author
+            name = f"{author.name}#{author.discriminator}"
+            user_votes[name] = self.get_vote_from_message(message)
+
+        votes = {}
+        for user in user_votes:
+            val = user_votes[user].capitalize()
+            try:
+                votes[val].append(user)
+            except KeyError:
+                votes[val] = [user]
+
+        # max votes first
+        votes = dict(sorted(
+            votes.items(), key=lambda item: len(item[1]), reverse=True
+        ))
+
+        try:
+            votes["VTNL"] = votes.pop("Vtnl")
+        except KeyError:
+            pass
+
+        try:
+            votes["No vote"] = votes.pop("No vote")
+        except KeyError:
+            pass
+
+        try:
+            votes["Vote couldn't be counted"] = votes.pop(
+                "Vote couldn't be counted"
+            )
+        except KeyError:
+            pass
+
+        txt = ""
+
+        for i, vote in enumerate(votes, start=1):
+            voters = votes[vote]
+
+            txt += _("\n{}. {} - {} ({})").format(
+                i, vote, len(voters), ", ".join(voters)
+            )
+
+        title = _("Vote Count")
+
+        embed = discord.Embed(
+            color=0x00CDFF, title=title,
+            description=_("__Counting from {} channel.__\n\n{}").format(
+                channel.mention, txt.strip()
+            )
+        )
+
+        try:
+            await ctx.send(embed=embed)
+        except discord.Forbidden:
+            await ctx.send(
+                f"**{title}**\n__Counting from {channel.mention}"
+                f" channel.__\n\n{txt.strip()}"
+            )
+
     async def check_na_channel(self, guild: discord.Guild):
         """Check if night action channel exists.
 
@@ -1122,3 +1203,49 @@ class TvM(commands.Cog):
         id_ = await getattr(self.config.guild(guild), iden)()
 
         return discord.utils.get(guild.roles, id=id_)
+
+    async def get_vote_channel(self, guild: discord.Guild):
+        """Return latest vote channel.
+
+        Error message is returned if no channels can be found.
+        """
+
+        vote_channels = [
+            ch for ch in guild.channels
+            if "voting" in ch.name
+            or "vote" in ch.name
+        ]
+
+        if len(vote_channels) < 1:
+            return _(
+                "I couldn't identify a voting channel. Please specify one"
+                " explicitly. Example: `votecount <channel>`"
+            )
+
+        if len(vote_channels) > 1:
+            # get channel with the largest suffixed number
+            return max(
+                vote_channels, key=lambda obj: int(obj.name.split("-")[1])
+            )
+
+        else:
+            return vote_channels[0]
+
+    def get_vote_from_message(self, message: discord.Message):
+        """Return name of person votes against from the message."""
+
+        content = message.clean_content
+
+        if (
+            "vtl" in content.lower()
+            and "unvtl" not in content.lower()
+        ):
+            res = re.search(vote_regex, content)
+            try:
+                return res.group(1)
+            except AttributeError:
+                return "Vote couldn't be counted"
+        elif "vtnl" in content.lower():
+            return "VTNL"
+        else:
+            return "No vote"
