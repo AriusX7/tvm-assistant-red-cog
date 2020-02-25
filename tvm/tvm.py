@@ -1006,7 +1006,7 @@ class TvM(commands.Cog):
 
     @commands.command(name="votecount", aliases=["vc"])
     @commands.guild_only()
-    async def _voice_count(
+    async def _vote_count(
         self, ctx: Context, *, channel: discord.TextChannel = None
     ):
         """Count votes!"""
