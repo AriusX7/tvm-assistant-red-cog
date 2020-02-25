@@ -57,7 +57,7 @@ def is_host_or_admin():
                 return True
             else:
                 raise NotHostOrAdmin(
-                    "This command can only be used by hosts or admins."
+                    "This command can only be used by hosts and admins."
                 )
 
     return commands.check(predicate)
