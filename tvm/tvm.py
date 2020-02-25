@@ -1038,16 +1038,15 @@ class TvM(commands.Cog):
             votes.items(), key=lambda item: len(item[1]), reverse=True
         ))
 
+        # Pop and add stuff back to dict for ordering purpose.
         try:
             votes["VTNL"] = votes.pop("Vtnl")
         except KeyError:
             pass
-
         try:
             votes["No vote"] = votes.pop("No vote")
         except KeyError:
             pass
-
         try:
             votes["Vote couldn't be counted"] = votes.pop(
                 "Vote couldn't be counted"
