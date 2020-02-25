@@ -1,0 +1,19 @@
+{
+	"author": "AriusX7",
+	"description": "A cog to log message edits and deletes for TvMs.",
+	"install_msg": "Thank you for installing the TvMLog cog!",
+	"min_python_version": [3, 8, 0],
+	"permissions": [
+		"embed_links"
+	],
+	"short": "A  logging cog for TvMs.",
+	"tags": [
+		"tvm",
+        "games",
+        "mafia",
+        "town",
+		"werewolf",
+		"logging"
+	],
+	"type": "COG"
+}
