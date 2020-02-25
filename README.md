@@ -92,3 +92,4 @@ It has the following commands:
 ## Credits
 
 Town of Salem: Bot logo
+[Trusty-cogs](https://github.com/TrustyJAID/Trusty-cogs): Logging events
