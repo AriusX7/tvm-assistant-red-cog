@@ -71,6 +71,7 @@ class TvMLog(commands.Cog):
 
     @commands.command(name="logchannel")
     @is_host_or_admin()
+    @commands.guild_only()
     async def logging_channel(
         self, ctx: Context, *, channel: discord.TextChannel
     ):
@@ -82,6 +83,7 @@ class TvMLog(commands.Cog):
 
     @commands.command(name="wchannel")
     @is_host_or_admin()
+    @commands.guild_only()
     async def whitelist_channel(
         self, ctx: Context, channel: discord.TextChannel
     ):
@@ -94,6 +96,7 @@ class TvMLog(commands.Cog):
 
     @commands.command(name="bchannel")
     @is_host_or_admin()
+    @commands.guild_only()
     async def blacklist_channel(
         self, ctx: Context, channel: discord.TextChannel
     ):
@@ -106,6 +109,7 @@ class TvMLog(commands.Cog):
 
     @commands.command(name="rwchannel")
     @is_host_or_admin()
+    @commands.guild_only()
     async def remove_whitelist_channel(
         self, ctx: Context, channel: discord.TextChannel
     ):
@@ -123,6 +127,7 @@ class TvMLog(commands.Cog):
 
     @commands.command(name="rbchannel")
     @is_host_or_admin()
+    @commands.guild_only()
     async def remove_blacklist_channel(
         self, ctx: Context, channel: discord.TextChannel
     ):
