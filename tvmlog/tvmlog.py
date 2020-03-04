@@ -143,6 +143,49 @@ class TvMLog(commands.Cog):
 
         await ctx.message.add_reaction(CHECK_MARK)
 
+    @commands.command(name="logsettings")
+    @is_host_or_admin()
+    @commands.guild_only()
+    async def _log_settings(self, ctx: Context):
+        """Display log settings."""
+
+        guild: discord.Guild = ctx.guild
+
+        async with self.config.guild(guild).wchannels() as wlist:
+            whitelist = [guild.get_channel(ch_id).mention for ch_id in wlist]
+
+        async with self.config.guild(guild).bchannels() as blist:
+            blacklist = [guild.get_channel(ch_id).mention for ch_id in blist]
+
+        allowed = []
+        for channel in guild.text_channels:
+            mention = channel.mention
+            if (
+                mention in whitelist
+                or mention in blacklist
+            ):
+                continue
+            if not await self.is_ignored_channel(guild, channel):
+                allowed.append(mention)
+
+        embed = discord.Embed(colour=0x00CDFF, title="TvM Log Settings")
+
+        embed.add_field(
+            name="Whitelisted Channels",
+            value="\n".join(whitelist) or "No channels",
+            inline=False
+        )
+        embed.add_field(
+            name="Blacklisted Channels",
+            value="\n".join(blacklist) or "No channels",
+            inline=False
+        )
+        embed.add_field(
+            name="Default Allowed Channels", value="\n".join(allowed) or "None"
+        )
+
+        await ctx.send(embed=embed)
+
     async def is_ignored_channel(
         self, guild: discord.Guild, channel: discord.TextChannel
     ):
