@@ -1,6 +1,6 @@
 <h1 align="center">
-  <a href="https://ariusx7.github.io/tvm-assistant/">
-  TvM Assistant
+  <a href="https://discordapp.com/api/oauth2/authorize?client_id=680383600725590020&permissions=268494928&scope=bot">
+  Invite!
   </a>
   <br>
 </h1>
