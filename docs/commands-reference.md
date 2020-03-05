@@ -1,4 +1,4 @@
-<h3 align="center"><a href="index">Main Index!</h3>
+<h3 align="center"><a href="index">Main Index!</a></h3>
 
 <p align="center">
   <a href="#general">General</a>
