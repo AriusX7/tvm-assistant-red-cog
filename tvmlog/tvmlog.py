@@ -1,4 +1,3 @@
-import os
 from datetime import datetime
 from typing import cast
 
@@ -8,7 +7,7 @@ from redbot.core import Config, commands
 from redbot.core.bot import Red
 from redbot.core.commands import Context
 from redbot.core.i18n import Translator, cog_i18n
-from redbot.core.utils.chat_formatting import escape
+from redbot.core.utils.chat_formatting import escape, text_to_file
 
 
 _ = Translator("TvMLog", __file__)
@@ -26,7 +25,7 @@ class NotHostOrAdmin(CheckFailure):
     """Raised if member is not host or admin."""
 
 
-def is_host_or_admin():
+def if_host_or_admin():
     """Restrict the role to members with host role or admin permissions."""
 
     async def predicate(ctx: Context):
@@ -59,7 +58,7 @@ class TvMLog(commands.Cog):
         self.bot = bot
 
         self.config = Config.get_conf(
-            bot, "1_021_210_707", force_registration=True
+            self, "1_021_202_707", force_registration=True
         )
 
         try:
@@ -70,19 +69,38 @@ class TvMLog(commands.Cog):
         self.config.register_guild(**default_guild)
 
     @commands.command(name="logchannel")
-    @is_host_or_admin()
+    @if_host_or_admin()
     @commands.guild_only()
     async def logging_channel(
-        self, ctx: Context, *, channel: discord.TextChannel
+        self, ctx: Context, *, channel: discord.TextChannel = None
     ):
-        """Set the logging channel."""
+        """Set or create the logging channel."""
 
-        await self.config.guild(ctx.guild).log_id.set(channel.id)
+        guild: discord.Guild = ctx.guild
+
+        if not channel:
+            overwrites = {
+                guild.default_role: discord.PermissionOverwrite(
+                    read_messages=True,
+                    send_messages=False,
+                    add_reactions=False
+                ),
+                guild.me: discord.PermissionOverwrite(
+                    read_messages=True,
+                    send_messages=True,
+                    embed_links=True
+                )
+            }
+            channel = await guild.create_text_channel(
+                "log", overwrites=overwrites
+            )
+
+        await self.config.guild(guild).log_id.set(channel.id)
 
         await ctx.message.add_reaction(CHECK_MARK)
 
     @commands.command(name="wchannel")
-    @is_host_or_admin()
+    @if_host_or_admin()
     @commands.guild_only()
     async def whitelist_channel(
         self, ctx: Context, channel: discord.TextChannel
@@ -95,7 +113,7 @@ class TvMLog(commands.Cog):
         await ctx.message.add_reaction(CHECK_MARK)
 
     @commands.command(name="bchannel")
-    @is_host_or_admin()
+    @if_host_or_admin()
     @commands.guild_only()
     async def blacklist_channel(
         self, ctx: Context, channel: discord.TextChannel
@@ -108,7 +126,7 @@ class TvMLog(commands.Cog):
         await ctx.message.add_reaction(CHECK_MARK)
 
     @commands.command(name="rwchannel")
-    @is_host_or_admin()
+    @if_host_or_admin()
     @commands.guild_only()
     async def remove_whitelist_channel(
         self, ctx: Context, channel: discord.TextChannel
@@ -126,7 +144,7 @@ class TvMLog(commands.Cog):
         await ctx.message.add_reaction(CHECK_MARK)
 
     @commands.command(name="rbchannel")
-    @is_host_or_admin()
+    @if_host_or_admin()
     @commands.guild_only()
     async def remove_blacklist_channel(
         self, ctx: Context, channel: discord.TextChannel
@@ -144,7 +162,7 @@ class TvMLog(commands.Cog):
         await ctx.message.add_reaction(CHECK_MARK)
 
     @commands.command(name="logsettings")
-    @is_host_or_admin()
+    @if_host_or_admin()
     @commands.guild_only()
     async def _log_settings(self, ctx: Context):
         """Display log settings."""
@@ -168,7 +186,15 @@ class TvMLog(commands.Cog):
             if not await self.is_ignored_channel(guild, channel):
                 allowed.append(mention)
 
-        embed = discord.Embed(colour=0x00CDFF, title="TvM Log Settings")
+        log_id = await self.config.guild(guild).log_id()
+        if not log_id:
+            desc = "Log channel not set!"
+        else:
+            desc = f"Log channel: {guild.get_channel(log_id).mention}"
+
+        embed = discord.Embed(
+            colour=0x00CDFF, title="TvM Log Settings", description=desc
+        )
 
         embed.add_field(
             name="Whitelisted Channels",
@@ -215,19 +241,10 @@ class TvMLog(commands.Cog):
             first = content[:500]
             # second = content[1024:]
             fn = f"{iden.lower()}.txt"
-            f = open(fn, "w")
-            f.write(content)
 
-            file = discord.File(fn)
+            file = text_to_file(content, fn)
 
             txt = f"{first.strip()}...\n\nFull message attached below."
-
-            f.close()
-
-            try:
-                os.remove(fn)
-            except OSError:
-                open(fn, "w").close()
 
             embed.add_field(name=f"{iden} Content", value=txt)
             # embed.add_field(
