@@ -11,7 +11,7 @@
 <h4 align="center">Makes hosting TvMs easier!</h4>
 
 <p align="center">
-  <a href="">Introduction</a>
+  <a href="introduction">Introduction</a>
   •
   <a href="quickstart">Quickstart</a>
   •

@@ -1,4 +1,30 @@
-**Note:** The stuff written inside `<>` and `[]` are called parameters. `<>` means required parameter, `[]` means optional. For example, if there is `<number>` written, simply enter a number, like `12`, without the `<>`. More on types of parameters [below](parameters).
+<h1 align="center">
+  <br>
+  <a href="https://ariusx7.github.io/tvm-assistant/">
+  <img src="https://i.imgur.com/v9WAfJi.jpg" alt="TvM Assistant">
+  <br>
+  </a>
+  TvM Assistant
+  <br>
+</h1>
+
+<h4 align="center">Makes hosting TvMs easier!</h4>
+
+<p align="center">
+  <a href="index#introduction">Introduction</a>
+  •
+  <a href="quickstart">Quickstart</a>
+  •
+  <a href="commands-reference">Commands Reference</a>
+  •
+  <a href="parameters">Parameters</a>
+  •
+  <a href="index#self-hosting">Self Hosting</a>
+  •
+  <a href="index#credits">Credits</a>
+</p>
+
+**Note:** The stuff written inside `<>` and `[]` are called parameters. `<>` means required parameter, `[]` means optional. For example, if there is `<number>` written, simply enter a number, like `12`, without the `<>`. More on types of parameters [here](parameters).
 
 ## General
 
