@@ -5,28 +5,8 @@ TvM Assistant is a Discord bot with utility functions to make hosting TvMs easie
 ## Table of Contents
 
 - [Quickstart](#quickstart)
-  - [Prerequisites](#prerequisites)
-  - [Step 1](#step-1)
-  - [Step 2](#step-2)
-  - [Step 3](#step-3)
-  - [Step 4](#step-4)
-  - [Optional Step](#optional-step)
-  - [Step 5](#step-5)
-  - [Step 6](#step-6)
 - [Command Reference](#command-reference)
-  - [General](#general)
-  - [Roles](#roles)
-  - [Channels](#channels)
-  - [TvM Specific Settings](#tvm-specific-settings)
-  - [Cycle Commands](#cycle-commands)
-  - [Logging](#logging)
-  - [Clear](#clear)
-  - [Misc](#misc)
 - [Parameters](#parameters)
-  - [User](#user)
-  - [Role](#role)
-  - [Channel](#channel)
-  - [Miscellaneous](#miscellaneous)
 - [Credits](#credits)
 
 ## Quickstart
@@ -374,14 +354,13 @@ Sometimes the bot can't determine if the game started or not. Use this to fix th
 
 ### Miscellaneous
 
-`ignored`: text, supports markdown, is ignored by the bot
-`action`: text, supports markdown
-`players`: list of comma-separated player names. Must be enclosed within double quotes.
-`roles`: list of comma-separated role names
-`case_number`: a number
-`category_name`: text, doesn't support markdown
-`number`: a number
-`cycle_number`: a number
+`ignored`: text, supports markdown, is ignored by the bot  
+`action`: text, supports markdown  
+`roles`: list of comma-separated role names  
+`case_number`: a number  
+`category_name`: text, doesn't support markdown  
+`number`: a number  
+`cycle_number`: a number  
 
 ## Credits
 
