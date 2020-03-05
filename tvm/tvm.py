@@ -1,6 +1,7 @@
 # import logging
 import re
 import secrets
+from datetime import datetime, timedelta
 
 import discord
 from redbot.core import Config, commands
@@ -10,11 +11,15 @@ from redbot.core.utils.predicates import ReactionPredicate
 from redbot.core.utils.menus import start_adding_reactions
 
 from .utils import (
-    tvmset_lock, TvMSettingsLocked,
-    is_host_or_admin, NotHostOrAdmin,
-    player_and_spec_roles_exist, NotRequiredRoles,
-    player_role_exists, player_and_dead_roles_exist,
-    repl_role_exists, in_private_channel, NotPrivateChannel
+    TvMCommandFailure,
+    tvmset_lock,
+    if_host_or_admin,
+    if_player_and_spec_roles_exist,
+    if_player_role_exists,
+    if_player_and_dead_roles_exist,
+    if_repl_role_exists,
+    if_in_private_channel,
+    if_game_started
 )
 
 
@@ -35,13 +40,21 @@ default_guild = {
     "signups_on": True,
     "total_players": 12,
     "signed": 0,
-    "na_submitted": []
+    "na_submitted": [],
+    "cycle": {
+        "number": 0,
+        "day": None,
+        "vote": None,
+        "night": None
+    }
 }
 
 CHECK_MARK = "\N{WHITE HEAVY CHECK MARK}"
-vote_regex = re.compile(r"\*?\*?[Vv][Tt][Ll]\*?\*? (\S+)")
-# no_vote_regex = re.compile(r"\*?\*?[Vv][Tt][Nn][Ll]\*?\*?")
-# un_vote_regex = re.compile(r"\*?\*?[Uu][Nn][Vv][Tt][Ll]\*?\*? (\S+)")
+vote_regex = re.compile(r"[\*_~|]*[Vv][Tt][Ll][\*_~|]* ([^\s\*_~|]+)")
+un_vote_regex = re.compile(
+    r"[\*_~|]*[Uu][Nn]-?[Vv][Tt][Ll][\*_~|]*\s?([^\s\*_~|]+)?"
+)
+no_vote_regex = re.compile(r"[\*_~|]*[Vv][Tt][Nn][Ll][\*_~|]*")
 
 
 @cog_i18n(_)
@@ -52,12 +65,12 @@ class TvM(commands.Cog):
         # self.bot = bot
 
         self.config = Config.get_conf(
-            bot, "1_102_021_220", force_registration=True
+            self, "1_177_021_220", force_registration=True
         )
         self.config.register_guild(**default_guild)
 
     @commands.group(name="tvm")
-    @is_host_or_admin()
+    @if_host_or_admin()
     @commands.guild_only()
     async def _tvm(self, ctx: Context):
         """Set various roles, channels, etc."""
@@ -180,24 +193,25 @@ class TvM(commands.Cog):
         guild: discord.Guild = ctx.guild
 
         host = await guild.create_role(
-            name="Host", colour=discord.Color(0xFFBF37),
+            name="Hosts", colour=discord.Color(0xFFBF37),
             hoist=True, mentionable=True
         )
         await self.config.guild(guild).host_id.set(host.id)
+        await ctx.author.add_roles(host)
 
         player = await guild.create_role(
-            name="Player", colour=discord.Color(0x37BFFF),
+            name="Players", colour=discord.Color(0x37BFFF),
             hoist=True, mentionable=True
         )
         await self.config.guild(guild).player_id.set(player.id)
 
         repl = await guild.create_role(
-            name="Replacement", colour=discord.Color(0x86FF40)
+            name="Replacements", colour=discord.Color(0x86FF40)
         )
         await self.config.guild(guild).repl_id.set(repl.id)
 
         spec = await guild.create_role(
-            name="Spectator", colour=discord.Color(0xD837FF)
+            name="Spectators", colour=discord.Color(0xD837FF)
         )
         await self.config.guild(guild).spec_id.set(spec.id)
 
@@ -460,7 +474,7 @@ class TvM(commands.Cog):
 
     @commands.command(name="in")
     @commands.guild_only()
-    @player_and_spec_roles_exist()
+    @if_player_and_spec_roles_exist()
     async def _sign_in(self, ctx: Context, *, ignored: str = None):
         """Sign up for the TvM!"""
 
@@ -496,7 +510,7 @@ class TvM(commands.Cog):
 
     @commands.command(name="out", aliases=["spec", "spectator"])
     @commands.guild_only()
-    @player_and_spec_roles_exist()
+    @if_player_and_spec_roles_exist()
     async def _sign_out(self, ctx: Context, *, ignored: str = None):
         """Spec the TvM!"""
 
@@ -531,7 +545,7 @@ class TvM(commands.Cog):
 
     @commands.command(name="repl", aliases=["replace", "replacement"])
     @commands.guild_only()
-    @repl_role_exists()
+    @if_repl_role_exists()
     async def _sign_repl(self, ctx: Context, *, ignored: str = None):
         """Sign-up as a replacement!"""
 
@@ -566,10 +580,24 @@ class TvM(commands.Cog):
             await ctx.message.add_reaction(CHECK_MARK)
 
     @commands.command(aliases=["randomise", "randomize"])
-    async def rand(self, ctx: Context, players: str, *, roles: str):
-        """Randomly assign a role to a player."""
+    @commands.guild_only()
+    @if_host_or_admin()
+    @if_player_role_exists()
+    async def rand(self, ctx: Context, *, roles: str):
+        """Randomly assign specified roles to people with `Player` role.
 
-        players = [x.strip() for x in players.split(",") if x.strip() != ""]
+        Number of roles should be equal to number of players.
+        """
+
+        guild: discord.Guild = ctx.guild
+
+        # players = [x.strip() for x in players.split(",") if x.strip() != ""]
+        player_role = guild.get_role(
+            await self.config.guild(guild).player_id()
+        )
+        players = [
+            member for member in guild.members if player_role in member.roles
+        ]
         roles = [y.strip() for y in roles.split(",") if y.strip() != ""]
 
         if len(players) != len(roles):
@@ -589,7 +617,7 @@ class TvM(commands.Cog):
 
     @commands.command(name="playerchats", aliases=["pc"])
     @commands.guild_only()
-    @is_host_or_admin()
+    @if_host_or_admin()
     async def _player_chats(self, ctx: Context, *, cat_name="Private Chats"):
         """Create private channels for users with player role.
 
@@ -647,7 +675,7 @@ class TvM(commands.Cog):
 
     @commands.command(name="mafiachat", aliases=["mafchat"])
     @commands.guild_only()
-    @is_host_or_admin()
+    @if_host_or_admin()
     async def _mafia_chat(self, ctx: Context, *mafias: discord.Member):
         """Create a mafia chat."""
 
@@ -673,7 +701,7 @@ class TvM(commands.Cog):
 
     @commands.command(name="nightaction", aliases=["na"])
     @commands.guild_only()
-    @in_private_channel()
+    @if_in_private_channel()
     async def _night_action(self, ctx: Context, *, action: str):
         """Submit your night action!"""
 
@@ -711,7 +739,7 @@ class TvM(commands.Cog):
 
     @commands.command(name="host")
     @commands.guild_only()
-    @is_host_or_admin()
+    @if_host_or_admin()
     async def _make_host(self, ctx: Context, *, user: discord.Member):
         """Make the specified user a host!"""
 
@@ -734,7 +762,7 @@ class TvM(commands.Cog):
 
     @commands.command(name="specchat")
     @commands.guild_only()
-    @is_host_or_admin()
+    @if_host_or_admin()
     async def _spec_chat(
         self, ctx: Context, *, channel: discord.TextChannel = None
     ):
@@ -781,12 +809,32 @@ class TvM(commands.Cog):
 
     @commands.command(name="cycle")
     @commands.guild_only()
-    @is_host_or_admin()
-    @player_role_exists()
-    async def _create_cycle(self, ctx: Context, number: int):
+    @if_host_or_admin()
+    @if_player_role_exists()
+    async def _create_cycle(self, ctx: Context, number: int = None):
         """Create a category for a cycle with day, votes and night channels."""
 
         guild: discord.Guild = ctx.guild
+
+        if not number:
+            number = (
+                await self.config.guild(guild).get_raw("cycle", "number") + 1
+            )
+
+        msg = await ctx.send(
+            _(
+                "Are you sure you want to create cycle `{}` channels? Make"
+                " sure you have the day text ready. Users will be able to talk"
+                " in the day and vote channels as soon as they are created."
+            ).format(number)
+        )
+        start_adding_reactions(msg, ReactionPredicate.YES_OR_NO_EMOJIS)
+
+        pred = ReactionPredicate.yes_or_no(msg, ctx.author)
+        await ctx.bot.wait_for("reaction_add", check=pred)
+
+        if not pred.result:
+            return await ctx.send(_("Process aborted."))
 
         player_id = await self.config.guild(guild).player_id()
         player_role = discord.utils.get(guild.roles, id=player_id)
@@ -794,10 +842,16 @@ class TvM(commands.Cog):
         overwrites = {
             guild.default_role: discord.PermissionOverwrite(
                 read_messages=True,
-                send_messages=False
+                send_messages=False,
+                add_reactions=False,
             ),
             player_role: discord.PermissionOverwrite(
-                send_messages=True
+                send_messages=True,
+                attach_files=False
+            ),
+            guild.me: discord.PermissionOverwrite(
+                send_messages=True,
+                embed_links=True
             )
         }
 
@@ -805,14 +859,11 @@ class TvM(commands.Cog):
             f"Cycle {number}", overwrites=overwrites
         )
 
-        await cycle_category.create_text_channel(f"day-{number}")
-        await cycle_category.create_text_channel(f"day-{number}-votes")
+        day = await cycle_category.create_text_channel(f"day-{number}")
+        vote = await cycle_category.create_text_channel(f"day-{number}-votes")
 
         night_overwrites = {
             guild.default_role: discord.PermissionOverwrite(
-                read_messages=False
-            ),
-            player_role: discord.PermissionOverwrite(
                 read_messages=False
             ),
             guild.me: discord.PermissionOverwrite(
@@ -820,18 +871,96 @@ class TvM(commands.Cog):
             )
         }
 
-        await cycle_category.create_text_channel(
+        night = await cycle_category.create_text_channel(
             f"night-{number}", overwrites=night_overwrites
         )
 
         await self.config.guild(guild).na_submitted.clear()
 
+        async with self.config.guild(guild).cycle() as cycle:
+            cycle["number"] = number
+            cycle["day"] = day.id
+            cycle["vote"] = vote.id
+            cycle["night"] = night.id
+
         await ctx.send(_("Created cycle {} channels!").format(number))
+
+    @commands.command(name="night")
+    @commands.guild_only()
+    @if_host_or_admin()
+    @if_player_role_exists()
+    async def _night(self, ctx: Context):
+        """Close day channels and open night channel.
+
+        Mentions the `Player` role.
+        """
+
+        guild: discord.Guild = ctx.guild
+
+        data = await self.config.guild(guild).all()
+
+        cycle = data['cycle']
+
+        number = cycle['number']
+
+        msg = await ctx.send(
+            _(
+                "Are you sure you want to start night {}? Make sure you"
+                " have already posted the night starting text, minus the"
+                " players ping, in the channel. I will ping players as soon"
+                " as the channel is opened."
+            ).format(number)
+        )
+        start_adding_reactions(msg, ReactionPredicate.YES_OR_NO_EMOJIS)
+
+        pred = ReactionPredicate.yes_or_no(msg, ctx.author)
+        await ctx.bot.wait_for("reaction_add", check=pred)
+
+        if not pred.result:
+            return await ctx.send(_("Process aborted."))
+
+        day = guild.get_channel(cycle['day'])
+        vote = guild.get_channel(cycle['vote'])
+        night = guild.get_channel(cycle['night'])
+
+        day_overwrites = {
+            guild.default_role: discord.PermissionOverwrite(
+                read_messages=True,
+                send_messages=False,
+                add_reactions=False,
+            )
+        }
+
+        await day.edit(overwrites=day_overwrites)
+        await vote.edit(overwrites=day_overwrites)
+        await night.edit(overwrites=None)
+
+        na_channel = await self.check_na_channel(guild)
+        if not na_channel:
+            na_channel = await self.create_na_channel(guild)
+
+        try:
+            await night.send(
+                _("Night {} begins! {}").format(
+                    number, f"<@&{data['player_id']}>"
+                )
+            )
+        except discord.Forbidden:
+            pass
+
+        try:
+            await na_channel.send(
+                _("**Night {} begins!**\n\n\n\n\u200b").format(number)
+            )
+        except discord.Forbidden:
+            pass
+
+        await ctx.send(_("Night {} channel opened.").format(number))
 
     @commands.command(name="kill")
     @commands.guild_only()
-    @is_host_or_admin()
-    @player_and_dead_roles_exist()
+    @if_host_or_admin()
+    @if_player_and_dead_roles_exist()
     async def _kill_player(self, ctx: Context, *, user: discord.Member):
         """Kill player by removing player role and adding dead player role."""
 
@@ -839,6 +968,9 @@ class TvM(commands.Cog):
 
         player_id = await self.config.guild(guild).player_id()
         player_role = discord.utils.get(guild.roles, id=player_id)
+
+        if player_role not in user.roles:
+            return await ctx.send(_("User doesn't have player role."))
 
         try:
             await user.remove_roles(player_role)
@@ -859,11 +991,10 @@ class TvM(commands.Cog):
 
     @commands.command(name="synctotal")
     @commands.guild_only()
-    @is_host_or_admin()
-    @player_role_exists()
+    @if_host_or_admin()
+    @if_player_role_exists()
     async def _sync_total(self, ctx: Context):
-        """Set number of total signed-up players
-        to number of people with player role."""
+        """Remove discrepancy between counted and actual sign-ups."""
 
         guild = ctx.guild
 
@@ -881,7 +1012,7 @@ class TvM(commands.Cog):
 
     @commands.group(name="clear")
     @commands.guild_only()
-    @is_host_or_admin()
+    @if_host_or_admin()
     async def _clear(self, ctx: Context):
         """Clear various database settings."""
 
@@ -954,9 +1085,9 @@ class TvM(commands.Cog):
 
     @commands.command(name="players")
     @commands.guild_only()
-    @player_role_exists()
+    @if_player_role_exists()
     async def _players(self, ctx: Context):
-        """List of users with Player role."""
+        """List of users with `Player` role."""
 
         guild = ctx.guild
 
@@ -980,9 +1111,9 @@ class TvM(commands.Cog):
 
     @commands.command(name="replacements")
     @commands.guild_only()
-    @repl_role_exists()
+    @if_repl_role_exists()
     async def _replacements(self, ctx: Context):
-        """List of users with Replacement role."""
+        """List of users with `Replacement` role."""
 
         guild = ctx.guild
 
@@ -1006,10 +1137,17 @@ class TvM(commands.Cog):
 
     @commands.command(name="votecount", aliases=["vc"])
     @commands.guild_only()
+    @if_player_role_exists()
+    @if_game_started()
     async def _vote_count(
         self, ctx: Context, *, channel: discord.TextChannel = None
     ):
-        """Count votes!"""
+        """Count votes!
+
+        The bot can automatically detect voting channels. However,
+        it may not be able to detect the correct channel in some cases.
+        Please specify the vote channel in such cases!
+        """
 
         guild: discord.Guild = ctx.guild
 
@@ -1018,12 +1156,38 @@ class TvM(commands.Cog):
             if isinstance(channel, str):
                 return await ctx.send(channel)
 
-        user_votes = {}
+            history = await channel.history(oldest_first=True).flatten()
+            if len(history) > 100:
+                return await ctx.send(_(
+                    "I couldn't identify a voting channel."
+                    " Please specify one explicitly."
+                ))
+        else:
+            history = await channel.history(oldest_first=True).flatten()
+            if len(history) > 100:
+                return await ctx.send(_(
+                    "That channel has too many messages!"
+                    " Please ask a host for manual vote count."
+                ))
 
-        async for message in channel.history(oldest_first=True):
+        if len(history) < 1:
+            return await ctx.send(_("Empty channel!"))
+
+        user_votes = {}
+        player_role = guild.get_role(
+            await self.config.guild(guild).player_id()
+        )
+
+        for message in history:
             author = message.author
-            name = f"{author.name}#{author.discriminator}"
-            user_votes[name] = self.get_vote_from_message(message)
+            if player_role not in author.roles:
+                continue
+            vote = self.get_vote_from_message(message)
+            if not vote:
+                continue
+            user_votes[f"{author.name}#{author.discriminator}"] = vote
+
+        user_votes = await self.get_non_voters(guild, user_votes)
 
         votes = {}
         for user in user_votes:
@@ -1047,12 +1211,12 @@ class TvM(commands.Cog):
             votes["No vote"] = votes.pop("No vote")
         except KeyError:
             pass
-        try:
-            votes["Vote couldn't be counted"] = votes.pop(
-                "Vote couldn't be counted"
-            )
-        except KeyError:
-            pass
+        # try:
+        #     votes["Vote couldn't be counted"] = votes.pop(
+        #         "Vote couldn't be counted"
+        #     )
+        # except KeyError:
+        #     pass
 
         txt = ""
 
@@ -1080,6 +1244,46 @@ class TvM(commands.Cog):
                 f" channel.__\n\n{txt.strip()}"
             )
 
+    @commands.command(name="timesince", aliases=["ts"])
+    @commands.guild_only()
+    @if_game_started()
+    async def _time_since(self, ctx: Context):
+        """Tell time elapsed since day/night channel was opened."""
+
+        guild: discord.Guild = ctx.guild
+
+        cycle = await self.config.guild(guild).cycle()
+        player = guild.get_role(await self.config.guild(guild).player_id())
+
+        channel = guild.get_channel(cycle["day"])
+        phase_name = f"Day {cycle['number']}"
+        if not self.is_day(channel, player):
+            channel = guild.get_channel(cycle["night"])
+            phase_name = f"Night {cycle['number']}"
+
+        diff = datetime.utcnow() - channel.created_at
+
+        await ctx.send(
+            _("{} began about {} ago.").format(
+                phase_name, self.format_time_since(diff)
+            )
+        )
+
+    @commands.command(name="started")
+    @commands.guild_only()
+    @if_host_or_admin()
+    async def _started(self, ctx: Context, cycle_number=1):
+        """Used to fix the issue when the bot can't detect if game started.
+
+        `cycle_number` is the number of cycle currently on. Defaults to 1.
+        """
+
+        await self.config.guild(ctx.guild).set_raw(
+            "cycle", "number", value=cycle_number
+        )
+
+        await ctx.message.add_reaction(CHECK_MARK)
+
     async def check_na_channel(self, guild: discord.Guild):
         """Check if night action channel exists.
 
@@ -1095,7 +1299,7 @@ class TvM(commands.Cog):
     async def create_na_channel(self, guild: discord.Guild):
         """Create a channel for the bot to send night actions.
 
-        Also add the channel to guild database.
+        Also add the channel to guild database. Returns the channel.
         """
 
         overwrites = {
@@ -1127,10 +1331,7 @@ class TvM(commands.Cog):
                 commands.CommandOnCooldown,
             ),
         ):
-            if isinstance(error, (
-                TvMSettingsLocked, NotHostOrAdmin,
-                NotRequiredRoles, NotPrivateChannel
-            )):
+            if isinstance(error, TvMCommandFailure):
                 await ctx.send(error)
 
         await ctx.bot.on_command_error(
@@ -1217,8 +1418,8 @@ class TvM(commands.Cog):
 
         if len(vote_channels) < 1:
             return _(
-                "I couldn't identify a voting channel. Please specify one"
-                " explicitly. Example: `votecount <channel>`"
+                "I couldn't identify a voting channel."
+                " Please specify one explicitly."
             )
 
         if len(vote_channels) > 1:
@@ -1234,17 +1435,65 @@ class TvM(commands.Cog):
         """Return name of person votes against from the message."""
 
         content = message.clean_content
+        message
 
-        if (
-            "vtl" in content.lower()
-            and "unvtl" not in content.lower()
-        ):
-            res = re.search(vote_regex, content)
-            try:
-                return res.group(1)
-            except AttributeError:
-                return "Vote couldn't be counted"
-        elif "vtnl" in content.lower():
+        res = re.match(vote_regex, content)
+        if res:
+            return res.group(1)
+        else:
+            res = re.match(no_vote_regex, content)
+        if res:
             return "VTNL"
         else:
+            res = re.match(un_vote_regex, content)
+        if res:
             return "No vote"
+
+    async def get_non_voters(self, guild: discord.Guild, uservotes: dict):
+        """Return dict after adding non-voters."""
+
+        player_role = guild.get_role(
+            await self.config.guild(guild).player_id()
+        )
+
+        for member in guild.members:
+            if player_role in member.roles:
+                userkey = f"{member.name}#{member.discriminator}"
+                if userkey not in uservotes:
+                    uservotes[userkey] = "No vote"
+
+        return uservotes
+
+    def is_day(
+        self, day_channel: discord.TextChannel, player: discord.Role
+    ):
+        """Checks whether it is day. Returns True if it is."""
+
+        if day_channel.overwrites_for(player).send_messages:
+            return True
+
+    def format_time_since(self, timedelta: timedelta):
+        """Get human representation of time passed since channel was created.
+
+        Version of `redbot.core.utils.chat_formatting.humanize_timedelta`
+        to only return days, hours and minutes.
+        """
+
+        seconds = timedelta.total_seconds()
+
+        periods = [
+            (_("day"), _("days"), 60 * 60 * 24),
+            (_("hour"), _("hours"), 60 * 60),
+            (_("minute"), _("minutes"), 60),
+        ]
+
+        strings = []
+        for period_name, plural_period_name, period_seconds in periods:
+            if seconds >= period_seconds:
+                period_value, seconds = divmod(seconds, period_seconds)
+                if period_value == 0:
+                    continue
+                unit = plural_period_name if period_value > 1 else period_name
+                strings.append(f"{int(period_value)} {unit}")
+
+        return ", ".join(strings)
