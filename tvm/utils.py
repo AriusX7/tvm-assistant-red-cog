@@ -2,20 +2,8 @@ from discord.ext.commands import CheckFailure
 from redbot.core import commands
 
 
-class TvMSettingsLocked(CheckFailure):
-    """Raised if TvM settings are locked."""
-
-
-class NotHostOrAdmin(CheckFailure):
-    """Raised if member is not host or admin."""
-
-
-class NotRequiredRoles(CheckFailure):
-    """Raised if player or spectator roles are not set up."""
-
-
-class NotPrivateChannel(CheckFailure):
-    """Raised if night action command is used outside player's channel."""
+class TvMCommandFailure(CheckFailure):
+    """Raised when a TvM command condition is not met."""
 
 
 def tvmset_lock():
@@ -28,7 +16,7 @@ def tvmset_lock():
 
             lock = await config.guild(ctx.guild).tvmset_lock()
             if lock:
-                raise TvMSettingsLocked(
+                raise TvMCommandFailure(
                     "TvM setting commands are currently locked."
                     " Remove the lock before running the setting commands."
                 )
@@ -38,7 +26,7 @@ def tvmset_lock():
     return commands.check(predicate)
 
 
-def is_host_or_admin():
+def if_host_or_admin():
     """Restrict the role to members with host role or admin permissions."""
 
     async def predicate(ctx: commands.Context):
@@ -56,14 +44,14 @@ def is_host_or_admin():
             if host_id in user_role_ids:
                 return True
             else:
-                raise NotHostOrAdmin(
+                raise TvMCommandFailure(
                     "This command can only be used by hosts and admins."
                 )
 
     return commands.check(predicate)
 
 
-def player_and_spec_roles_exist():
+def if_player_and_spec_roles_exist():
     """Check if player and spectator roles are set up."""
 
     async def predicate(ctx: commands.Context):
@@ -86,12 +74,12 @@ def player_and_spec_roles_exist():
             else:
                 return True
 
-            raise NotRequiredRoles(txt)
+            raise TvMCommandFailure(txt)
 
     return commands.check(predicate)
 
 
-def player_role_exists():
+def if_player_role_exists():
     """Check if player role is set up."""
 
     async def predicate(ctx: commands.Context):
@@ -107,12 +95,12 @@ def player_role_exists():
             if player:
                 return True
 
-            raise NotHostOrAdmin("Player role is not set up!")
+            raise TvMCommandFailure("Player role is not set up!")
 
     return commands.check(predicate)
 
 
-def player_and_dead_roles_exist():
+def if_player_and_dead_roles_exist():
     """Check if player and dead player roles are set up."""
 
     async def predicate(ctx: commands.Context):
@@ -135,12 +123,12 @@ def player_and_dead_roles_exist():
             else:
                 return True
 
-            raise NotRequiredRoles(txt)
+            raise TvMCommandFailure(txt)
 
     return commands.check(predicate)
 
 
-def repl_role_exists():
+def if_repl_role_exists():
     """Check if replacement role is set up."""
 
     async def predicate(ctx: commands.Context):
@@ -156,13 +144,13 @@ def repl_role_exists():
             if repl:
                 return True
 
-            raise NotHostOrAdmin("Replacement role is not set up!")
+            raise TvMCommandFailure("Replacement role is not set up!")
 
     return commands.check(predicate)
 
 
-def in_private_channel():
-    """Restrict the night action command to user's private channel."""
+def if_in_private_channel():
+    """Check if the command is used in user's private channel."""
 
     async def predicate(ctx: commands.Context):
 
@@ -173,8 +161,28 @@ def in_private_channel():
         if overwrites.send_messages:
             return True
 
-        raise NotPrivateChannel(
+        raise TvMCommandFailure(
             "This command can only be used in your private channel."
         )
+
+    return commands.check(predicate)
+
+
+def if_game_started():
+    """Check if the game started."""
+
+    async def predicate(ctx: commands.Context):
+
+        cog = ctx.cog
+        if cog:
+            config = cog.config
+
+            if await config.guild(ctx.guild).get_raw("cycle", "number") > 0:
+                return True
+
+            raise TvMCommandFailure(
+                "Game has not started yet. Please contact a host if the"
+                " game has started and you're still getting this error."
+            )
 
     return commands.check(predicate)
