@@ -6,7 +6,7 @@
 </h1>
 
 <p align="center">
-  <a href="introduction">Introduction</a>
+  <a href="#introduction">Introduction</a>
   •
   <a href="#features">Features</a>
   •
