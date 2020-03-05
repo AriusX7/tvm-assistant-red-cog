@@ -13,11 +13,11 @@
 <p align="center">
   <a href="">Introduction</a>
   •
-  <a href="quickstart.md">Quickstart</a>
+  <a href="quickstart">Quickstart</a>
   •
-  <a href="commands-reference.md">Commands Reference</a>
+  <a href="commands-reference">Commands Reference</a>
   •
-  <a href="parameters.md">Parameters</a>
+  <a href="parameters">Parameters</a>
   •
   <a href="#self-hosting">Self Hosting</a>
   •
@@ -30,7 +30,7 @@ TvM Assistant is a Discord bot with utility commands to make hosting TvMs easier
 
 ## Quickstart
 
-Detailed instructions on how to quickly set up the bot in your server can be found [here](quickstart.md).
+Detailed instructions on how to quickly set up the bot in your server can be found [here](quickstart).
 
 ## Self Hosting
 
