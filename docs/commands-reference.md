@@ -252,9 +252,13 @@ Randomly assigns a role from the pool to a person with the `Player` role. The co
 
 Lists all members with `Player` role.
 
+*Can be used by everyone.*
+
 ### `-replacements`
 
 Lists all members with `Replacement` role.
+
+*Can be used by everyone.*
 
 ### `-kill <user>`
 
