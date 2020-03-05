@@ -6,7 +6,7 @@
   <br>
 </h1>
 
-<h4 align="center"><i>Makes hosting TvMs easier!</i></h4>
+<h4 align="center">Makes hosting TvMs easier!</h4>
 
 <p align="center">
   <a href="#introduction">Introduction</a>
