@@ -1,4 +1,3 @@
-remote_theme: mmistakes/minimal-mistakes
-plugins:
-  - jekyll-include-cache
 theme: jekyll-theme-merlot
+title: TvM Assistant
+description: A Discord bot with utility functions to make hosting TvMs easier.
