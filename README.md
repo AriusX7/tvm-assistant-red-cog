@@ -62,7 +62,7 @@ First, use the [`-playerchats`](#-playerchats-category_name) command. It will al
 
 Second, use [`-mafiachat <mafia1> [mafia2 [mafia3..]]`](#mafiachat-mafia1-mafia2-mafia3) command to create a mafia chat. Example of this command: `-mafiachat Arius#5544 Ligi @Siris#4421`
 
-You can edit the name of player and mafia channels but are recommended to not do so. You can move channels across categories but make sure you choose the **Keep Permissions** option. **DO NOT CHANGE CHANNEL PERMISSIONS.**
+You can edit the name of player and mafia channels but are recommended to not do so. You can move channels across categories but make sure you choose the **Keep Permissions** option. **Do not change channel permissions.**
 
 Third, use [`-specchat [channel]`](#-specchat-channel) command to create a spectator chat. People with `Spectator` and `Dead` roles can see the spec chat.
 
@@ -306,7 +306,7 @@ These commands require administrator permission or the host role, unless otherwi
 
 #### `-host <user>`
 
-Give the specified user `host` role.
+Give the specified user `Host` role.
 
 #### `-rand <roles>`
 
@@ -359,5 +359,5 @@ Sometimes the bot can't determine if the game started or not. Use this to fix th
 
 ## Credits
 
-Town of Salem: Bot logo
-[Trusty-cogs](https://github.com/TrustyJAID/Trusty-cogs): Logging events
+- Town of Salem: Bot logo
+- [Trusty-cogs](https://github.com/TrustyJAID/Trusty-cogs): Logging events
