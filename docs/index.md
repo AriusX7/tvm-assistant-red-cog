@@ -1,10 +1,7 @@
 <h1 align="center">
-  <br>
   <a href="https://ariusx7.github.io/tvm-assistant/">
-  <img src="https://i.imgur.com/v9WAfJi.jpg" alt="TvM Assistant">
-  <br>
-  </a>
   TvM Assistant
+  </a>
   <br>
 </h1>
 
@@ -31,6 +28,14 @@ TvM Assistant is a Discord bot with utility commands to make hosting TvMs easier
 ## Quickstart
 
 Detailed instructions on how to quickly set up the bot in your server can be found [here](quickstart).
+
+## Commands Reference
+
+All bot commands are documented in detail [here](commands-reference).
+
+## Parameters
+
+Various parameters used in bot commands are explained in detail [here](parameters).
 
 ## Self Hosting
 

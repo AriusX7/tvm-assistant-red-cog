@@ -1,27 +1,13 @@
-<h1 align="center">
-  <br>
-  <a href="https://ariusx7.github.io/tvm-assistant/">
-  <img src="https://i.imgur.com/v9WAfJi.jpg" alt="TvM Assistant">
-  <br>
-  </a>
-  TvM Assistant
-  <br>
-</h1>
-
-<h4 align="center">Makes hosting TvMs easier!</h4>
+<h1 align="center"><a href="index">Main Index</a></h1>
 
 <p align="center">
-  <a href="index#introduction">Introduction</a>
+  <a href="#user">User</a>
   •
-  <a href="quickstart">Quickstart</a>
+  <a href="#role">Role</a>
   •
-  <a href="commands-reference">Commands Reference</a>
+  <a href="#channel">Channel</a>
   •
-  <a href="parameters">Parameters</a>
-  •
-  <a href="index#self-hosting">Self Hosting</a>
-  •
-  <a href="index#credits">Credits</a>
+  <a href="#miscellaneous">Miscellaneous</a>
 </p>
 
 ## User

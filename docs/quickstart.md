@@ -1,27 +1,22 @@
-<h1 align="center">
-  <br>
-  <a href="https://ariusx7.github.io/tvm-assistant/">
-  <img src="https://i.imgur.com/v9WAfJi.jpg" alt="TvM Assistant">
-  <br>
-  </a>
-  TvM Assistant
-  <br>
-</h1>
-
-<h4 align="center">Makes hosting TvMs easier!</h4>
+<h1 align="center"><a href="index">Main Index</a></h1>
 
 <p align="center">
-  <a href="index#introduction">Introduction</a>
+  <a href="#prerequisities">Prerequisities</a>
   •
-  <a href="quickstart">Quickstart</a>
+  <a href="#step-1">Step 1</a>
   •
-  <a href="commands-reference">Commands Reference</a>
+  <a href="#step-2">Step 2</a>
   •
-  <a href="parameters">Parameters</a>
+  <a href="#step-3">Step 3</a>
   •
-  <a href="index#self-hosting">Self Hosting</a>
+  <a href="#step-4">Step 4</a>
   •
-  <a href="index#credits">Credits</a>
+  <a href="#optional-step">Optional Step</a>
+  •
+  <a href="#step-5">Step 5</a>
+  •
+  <a href="#step-6">Step 6</a>
+  •
 </p>
 
 Follow the steps below to quicky set up the bot for your game. You must have `administrator` permissions to use some of the commands. If you're a player looking to check the commands you can use, see [General](commands-reference#general) and [Misc](commands-reference#misc) sections.
