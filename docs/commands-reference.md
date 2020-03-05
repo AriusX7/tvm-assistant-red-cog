@@ -1,16 +1,4 @@
-<p align="center">
-  <a href="index#introduction">Introduction</a>
-  •
-  <a href="quickstart">Quickstart</a>
-  •
-  <a href="commands-reference">Commands Reference</a>
-  •
-  <a href="parameters">Parameters</a>
-  •
-  <a href="index#self-hosting">Self Hosting</a>
-  •
-  <a href="index#credits">Credits</a>
-</p>
+<h3 align="center"><a href="index">Main Index!</h3>
 
 <p align="center">
   <a href="#general">General</a>
