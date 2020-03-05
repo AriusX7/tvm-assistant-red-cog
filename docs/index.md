@@ -5,8 +5,6 @@
   <br>
 </h1>
 
-<h4 align="center">Makes hosting TvMs easier!</h4>
-
 <p align="center">
   <a href="introduction">Introduction</a>
   •
