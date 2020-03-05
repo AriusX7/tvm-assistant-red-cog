@@ -1,13 +1,30 @@
-# TvM Assistant
+<h1 align="center">
+  <br>
+  <img src="https://i.imgur.com/v9WAfJi.jpg" alt="TvM Assistant">
+  <br>
+  TvM Assistant
+  <br>
+</h1>
+
+<h4 align="center"><i>Makes hosting TvMs easier!</i></h4>
+
+<p align="center">
+  <a href="#introduction">Introduction</a>
+  •
+  <a href="#quickstart">Quickstart</a>
+  •
+  <a href="#commands-reference">Commands Reference</a>
+  •
+  <a href="#parameters">Parameters</a>
+  •
+  <a href="#self-hosting">Self Hosting</a>
+  •
+  <a href="#credits">Credits</a>
+</p>
+
+## Introduction
 
 TvM Assistant is a Discord bot with utility functions to make hosting TvMs easier. You can invite it to your server by using [this link](https://discordapp.com/api/oauth2/authorize?client_id=680383600725590020&permissions=268494928&scope=bot). Inviting the bot will give it `Manage Channels`, `Manage Roles`, `Manage Messages`, `Add Reactions` and `Embed Links` permissions in addition to `Read` and `Send` messages perm.
-
-## Table of Contents
-
-- [Quickstart](#quickstart)
-- [Command Reference](#command-reference)
-- [Parameters](#parameters)
-- [Credits](#credits)
 
 ## Quickstart
 
@@ -80,7 +97,7 @@ Create cycle 1 channels. See [`-cycle [number]`](#-cycle-number) and [`-night`](
 
 Congratulations, all the work is now complete! Just use the `cycle` and `night` commands once every new cycle to keep the game running smoothly.
 
-## Command Reference
+## Commands Reference
 
 **Note:** The stuff written inside `<>` and `[]` are called parameters. `<>` means required parameter, `[]` means optional. For example, if there is `<number>` written, simply enter a number, like `12`, without the `<>`. More on types of parameters [below](#parameters).
 
@@ -361,6 +378,30 @@ Sometimes the bot can't determine if the game started or not. Use this to fix th
 `category_name`: text, doesn't support markdown  
 `number`: a number  
 `cycle_number`: a number  
+
+## Self Hosting
+
+You can own your own instance of TvM Assistant easily! TvM Assistant runs on [Red](https://github.com/Cog-Creators/Red-DiscordBot), a highly modular Discord bot. Instructions to install and run Red can be found [here](https://github.com/Cog-Creators/Red-DiscordBot#installation). Once you've installed Red, follow these steps:
+
+Replace `[p]` by the your bot's prefix in the below commands.
+
+*Load downloader if you haven't*  
+`[p]load downloader`
+
+*Add this repo to the bot*  
+`[p]repo add tvm-assist https://github.com/AriusX7/tvm-assistant`
+
+*Install required cogs*  
+`[p]cog install tvm-assist tvm`  
+`[p]cog install tvm-assist tvmlog` (if you want logging)
+
+*Load cogs*  
+`[p]load tvm`  
+`[p]load tvmlog` (if installed)  
+
+And that's all! You now have your very own TvM Assistant bot!
+
+**Note:** I update the cogs regularly to make them even better. Use `[p]cog update tvm` and `[p]cog update tvmlog` (if installed) command(s) to update my cogs.
 
 ## Credits
 
