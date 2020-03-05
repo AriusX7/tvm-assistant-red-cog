@@ -1,4 +1,4 @@
-theme: jekyll-theme-merlot
+theme: jekyll-theme-minimal
 title: TvM Assistant Discord Bot
 description: A Discord bot with utility functions to make hosting TvMs easier.
 logo: /logo.png
