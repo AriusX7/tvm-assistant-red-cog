@@ -51,7 +51,7 @@ Use [`-tvm setroles`](commands-reference#-tvm-setroles) command. It will create 
 
 ## Step 3
 
-Use [`-tvm setchannels`](commands-reference#tvm-setchannels) command. It will create sign-ups and night action (host-only) channels. Feel free to move the channels around or change their names. You can also change channel permissions but it may accidentally break some settings. [More about channels.](commands-reference#channels)
+Use [`-tvm setchannels`](commands-reference#-tvm-setchannels) command. It will create sign-ups and night action (host-only) channels. Feel free to move the channels around or change their names. You can also change channel permissions but it may accidentally break some settings. [More about channels.](commands-reference#channels)
 
 ## Step 4
 
@@ -69,7 +69,7 @@ Create `Player`, `Mafia` and `Spectator` chats.
 
 First, use the [`-playerchats`](commands-reference#-playerchats-category_name) command. It will also create channels for mafia members, as the bot doesn't know who is town and who is mafia. You can remove them manually.
 
-Second, use [`-mafiachat <mafia1> [mafia2 [mafia3..]]`](commands-reference#mafiachat-mafia1-mafia2-mafia3) command to create a mafia chat. Example of this command: `-mafiachat Arius#5544 Ligi @Siris#4421`
+Second, use [`-mafiachat <mafia1> [mafia2 [mafia3..]]`](commands-reference#-mafiachat-mafia1-mafia2-mafia3) command to create a mafia chat. Example of this command: `-mafiachat Arius#5544 Ligi @Siris#4421`
 
 You can edit the name of player and mafia channels but are recommended to not do so. You can move channels across categories but make sure you choose the **Keep Permissions** option. **Do not change channel permissions.**
 
