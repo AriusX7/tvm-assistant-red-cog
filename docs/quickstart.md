@@ -16,7 +16,6 @@
   <a href="#step-5">Step 5</a>
   •
   <a href="#step-6">Step 6</a>
-  •
 </p>
 
 Follow the steps below to quicky set up the bot for your game. You must have `administrator` permissions to use some of the commands. If you're a player looking to check the commands you can use, see [General](commands-reference#general) and [Misc](commands-reference#misc) sections.
