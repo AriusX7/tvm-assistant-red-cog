@@ -125,11 +125,11 @@ Sign-up as a replacement. Automatically assigns the Replacement role and removes
 
 #### `-votecount [channel]`
 
-The bot counts votes! The bot can automatically detect voting channels. However, it may not be able to detect the correct channel in some cases. Please specify the vote channel in such cases! Alias: `-vc [channel]`
+Counts votes! The bot can automatically detect voting channels. However, it may not be able to detect the correct channel in some cases. Please specify the vote channel in such cases! Alias: `-vc [channel]`
 
 #### `-timesince`
 
-Tell time elapsed since day/night channel was opened. The bot can automatically detect if it's day or night.
+Tells time elapsed since day/night channel was opened. The bot can automatically detect if it's day or night.
 
 #### `-nightaction <action>`
 
@@ -143,37 +143,37 @@ These commands require administrator permission or the host role.
 
 #### `-tvm hostrole <role>`
 
-Set `role` as the host role.
+Sets `role` as the host role.
 
-*The command asks for confirmation before making changes.*
+*The bot asks for confirmation before making changes.*
 
 #### `-tvm playerrole <role>`
 
-Set `role` as the player role.
+Sets `role` as the player role.
 
-*The command asks for confirmation before making changes.*
+*The bot asks for confirmation before making changes.*
 
 #### `-tvm specrole <role>`
 
-Set `role` as the spectator role.
+Sets `role` as the spectator role.
 
-*The command asks for confirmation before making changes.*
+*The bot asks for confirmation before making changes.*
 
 #### `-tvm deadrole <role>`
 
-Set `role` as the dead player role.
+Sets `role` as the dead player role.
 
-*The command asks for confirmation before making changes.*
+*The bot asks for confirmation before making changes.*
 
 #### `-tvm replrole <role>`
 
-Set `role` as the replacement role.
+Sets `role` as the replacement role.
 
-*The command asks for confirmation before making changes.*
+*The bot asks for confirmation before making changes.*
 
 #### `-tvm setroles`
 
-Create all the 5 roles and set them as appropriate automatically. Also adds the host role to the person using command.
+Creates all the 5 roles and sets them as appropriate automatically. Also adds the host role to the person using command.
 
 ### Channels
 
@@ -181,31 +181,29 @@ These commands require administrator permission or the host role.
 
 #### `-tvm nachannel <channel>`
 
-Set `channel` as the channel where night actions are relayed.
+Sets `channel` as the channel where night actions are relayed.
 
 #### `-tvm signup <channel>`
 
-Set `channel` as the sign-ups channel.
+Sets `channel` as the sign-ups channel.
 
 *The bot asks for confirmation before making changes.*
 
 #### `-tvm setchannels`
 
-Create `signups` and `nachannel` channels and set them as appropriate automatically.
-
-Set `channel` as the channel where night actions are relayed.
+Creates `signups` and `nachannel` channels and sets them as appropriate automatically.
 
 #### `-playerchats [category_name]`
 
-Set up private channels for all players. It also sets up individual channels for players who are mafia. Remove those manually. You can also specify a category name for the channels. Alias: `-pc [category_name]`
+Sets up private channels for all players. It also sets up individual channels for players who are mafia. You can remove those manually. You can also specify a category name for the channels. Alias: `-pc [category_name]`
 
 #### `-mafiachat <mafia1> [mafia2 [mafia3..]]`
 
-Set up mafia chat for users specified. Example: `-mafiachat Arius#5544 Ligi @Siris#4421`. Alias: `-mafchat <mafia1> [mafia2 [mafia3..]]`
+Sets up mafia chat for users specified. Example: `-mafiachat Arius#5544 Ligi @Siris#4421`. Alias: `-mafchat <mafia1> [mafia2 [mafia3..]]`
 
 #### `-specchat [channel]`
 
-Create spectator chat or fix permissions of an existing channel.
+Creates spectator chat or fix permissions of an existing channel.
 
 ### TvM Specific Settings
 
@@ -217,27 +215,27 @@ Toggle if user can change their night action once submitted. Defaults to `True`.
 
 #### `-tvm total <number>`
 
-Set `number` as the total number of players that can sign-up for the game. Defaults to `12`.
+Sets `number` as the total number of players that can sign-up for the game. Defaults to `12`.
 
 #### `-tvm signopen`
 
-Allow people to sign-up. On by default.
+Allows people to sign-up. On by default.
 
 #### `-tvm signclose`
 
-Close sign-ups.
+Closes sign-ups.
 
 #### `-tvm lock`
 
-Lock these and role and channel settings (commands that begin with `tvm`). Useful once the configuration is done so you don't accidentally mess things up mid-game.
+Locks these, role and channel settings (commands that begin with `tvm`). Useful once the configuration is done so you don't accidentally mess things up mid-game.
 
 #### `-tvm unlock`
 
-Unlock TvM settings.
+Unlocks TvM settings.
 
 #### `-tvm settings`
 
-View TvM settings. Alias: `-tvm show`
+Shows TvM settings. Alias: `-tvm show`
 
 ### Cycle Commands
 
@@ -245,7 +243,7 @@ These commands require administrator permission or the host role.
 
 #### `-cycle [number]`
 
-The bot creates a `Cycle` category with three channels: day, night and voting. Night channel is not visible to anyone except hosts and the bot. The bot maintains a cycle count (which starts at 0). However, the count may be broken in some cases. You can fix the count by specifying the cycle number when using the command. Simply using the `-cycle` command is recommended unless things are broken. Make sure to only use the command once per cycle.
+Creates a `Cycle` category with three channels: day, night and voting. Night channel is not visible to anyone except hosts and the bot. The bot maintains a cycle count (which starts at 0). However, the count may be broken in some cases. You can fix the count by specifying the cycle number when using the command. Simply using the `-cycle` command is recommended unless things are broken. Make sure to only use the command once per cycle.
 
 Make sure you have the day opening text ready before using the command. Day and vote channels will be visible to users as soon as they are created.
 
@@ -265,63 +263,63 @@ These commands require administrator permission or the host role.
 
 #### `-logchannel [channel]`
 
-Set or create the logging channel. All message edits and deletes from **public** channels will be logged in this channel.
+Sets or create sthe logging channel. All message edits and deletes from **public** channels will be logged in this channel.
 
 If you just use `-logchannel`, the bot will create a new channel called `log`. You can also set a channel you've already created as the log channel. Simply mention the channel in the command like this: `-logchannel #channel-name`.
 
 #### `-wchannel <channel>`
 
-Whitelist the `channel`. The messages in it will be logged irrespective of its permissions (as long as the bot can view this channel).
+Whitelists `channel`. The messages in it will be logged irrespective of its permissions (as long as the bot can view this channel).
 
 #### `-bchannel <channel>`
 
-Blacklist the `channel`. The messages in it will not be logged irrespective of its permissions. Whitelisting takes precedence over blacklisting. If a channel is in whitelist, the messages WILL BE LOGGED even if you blacklist it.
+Blacklists `channel`. The messages in it will not be logged irrespective of its permissions. Whitelisting takes precedence over blacklisting. If a channel is in whitelist, the messages WILL BE LOGGED even if you blacklist it.
 
 #### `-rwchannel <channel>`
 
-Remove the `channel` from the whitelist.
+Removes `channel` from the whitelist.
 
 #### `-rbchannel <channel>`
 
-Remove the `channel` from the blacklist.
+Removes `channel` from the blacklist.
 
 #### `-logsettings`
 
-Display log settings.
+Displays log settings.
 
 ### Clear
 
 #### `-clear nasubmitted`
 
-Clear the list of users who submitted night action the current cycle.
+Clears the list of users who submitted night action the current cycle.
 
 #### `-clear player`
 
-Remove `Player` role from the bot database.
+Removes `Player` role from the bot database.
 
 #### `-clear spec`
 
-Remove `Spectator` role from the bot database.
+Removes `Spectator` role from the bot database.
 
 #### `-clear host`
 
-Remove `Host` role from the bot database.
+Removes `Host` role from the bot database.
 
 #### `-clear repl`
 
-Remove `Replacement` role from the bot database. Alias: `-clear replacement`
+Removes `Replacement` role from the bot database. Alias: `-clear replacement`
 
 #### `-clear dead`
 
-Remove `Dead` role from the bot database.
+Removes `Dead` role from the bot database.
 
 #### `-clear signups`
 
-Remove sign-ups channel from the bot database.
+Removes sign-ups channel from the bot database.
 
 #### `-clear nachannel`
 
-Remove night action channel from the bot database.
+Removes night action channel from the bot database.
 
 ### Misc
 
@@ -329,23 +327,23 @@ These commands require administrator permission or the host role, unless otherwi
 
 #### `-host <user>`
 
-Give the specified user `Host` role.
+Gives the specified user `Host` role.
 
 #### `-rand <roles>`
 
-Randomly assign a role from the pool to a person with the `Player` role. The command should follow the pattern used in this example: `-rand role1, role2, role3, ...`. Number of players should be equal to number of roles. You can duplicate roles.
+Randomly assigns a role from the pool to a person with the `Player` role. The command should follow the pattern used in this example: `-rand role1, role2, role3, ...`. Number of players should be equal to number of roles. You can duplicate roles.
 
 #### `-players`
 
-List all members with `Player` role.
+Lists all members with `Player` role.
 
 #### `-replacements`
 
-List all members with `Replacement` role.
+Lists all members with `Replacement` role.
 
 #### `-kill <user>`
 
-Kill a player by automatically removing player role and adding the dead player role.
+Kills a player by automatically removing player role and adding the dead player role.
 
 #### `-synctotal`
 
