@@ -137,9 +137,9 @@ class TvMLog(commands.Cog):
             try:
                 wlist.remove(channel.id)
             except ValueError:
-                return await ctx.send(_(
-                    "{} was not whitelisted.".format(channel.mention)
-                ))
+                return await ctx.send(
+                    _("{} was not whitelisted.").format(channel.mention)
+                )
 
         await ctx.message.add_reaction(CHECK_MARK)
 
@@ -155,9 +155,9 @@ class TvMLog(commands.Cog):
             try:
                 blist.remove(channel.id)
             except ValueError:
-                return await ctx.send(_(
-                    "{} was not blacklisted.".format(channel.mention)
-                ))
+                return await ctx.send(
+                    _("{} was not blacklisted.").format(channel.mention)
+                )
 
         await ctx.message.add_reaction(CHECK_MARK)
 
