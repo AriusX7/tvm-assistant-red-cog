@@ -540,3 +540,20 @@ class TvMLog(commands.Cog):
                 after=escape(after.content, mass_mentions=True),
             )
             await log_channel.send(msg[:2000])
+
+    async def cog_command_error(self, ctx: Context, error: Exception):
+        if not isinstance(
+            getattr(error, "original", error),
+            (
+                # commands.CheckFailure,
+                commands.UserInputError,
+                commands.DisabledCommand,
+                commands.CommandOnCooldown,
+            ),
+        ):
+            if isinstance(error, NotHostOrAdmin):
+                await ctx.send(error)
+
+        await ctx.bot.on_command_error(
+            ctx, getattr(error, "original", error), unhandled_by_cog=True
+        )
