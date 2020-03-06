@@ -1,0 +1,126 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-03-06 12:44+0530\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: redgettext 3.1\n"
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:55
+#, docstring
+msgid "Logging for TvMs!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:77
+#, docstring
+msgid "Set or create the logging channel."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:108
+#, docstring
+msgid "Whitelist a channel. Messages in it will always be logged."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:121
+#, docstring
+msgid "Blacklist a channel. Messages in it will never be logged."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:134
+#, docstring
+msgid "Remove channel from whitelist."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:141
+msgid "{} was not whitelisted."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:152
+#, docstring
+msgid "Remove channel from blacklist."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:159
+msgid "{} was not blacklisted."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:168
+#, docstring
+msgid "Display log settings."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:296
+msgid "*Message's content unknown.*"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:299
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:376
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:440
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:516
+msgid "Channel"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:300
+msgid "Deleted Message"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:303
+msgid "`{time}` A message was deleted in {channel}"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:349
+msgid ""
+"`{time}` A message from **{author}** (`{a_id}`) was deleted in {channel}"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:359
+msgid ""
+"`{time}` {perp} deleted a message from **{author}** (`{a_id}`) in {channel}"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:378
+msgid "Deleted by"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:383
+msgid "Attachments"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:384
+msgid "User ID: "
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:386
+msgid "{member} ({m_id}) - Deleted Message"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:437
+msgid "Bulk message delete"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:443
+msgid "Messages deleted"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:447
+msgid "`{time}` Bulk message delete in {channel}, {amount} messages deleted."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:518
+msgid "Message ID: "
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:520
+msgid "{member} ({m_id}) - Edited Message"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvmlog/tvmlog.py:531
+msgid ""
+"`{time}` **{author}** (`{a_id}`) edited a message in "
+"{channel}.\\nBefore:\\n> {before}\\nAfter:\\n> {after}"
+msgstr ""

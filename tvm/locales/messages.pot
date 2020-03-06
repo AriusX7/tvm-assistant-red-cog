@@ -1,0 +1,522 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-03-06 12:45+0530\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: redgettext 3.1\n"
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:62
+#, docstring
+msgid "Class for TvM commands and related functions."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:76
+#, docstring
+msgid "Set various roles, channels, etc."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:84
+#, docstring
+msgid "Set the host role."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:87
+msgid "Are you sure you want to set `{}` as host role?"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:98
+msgid "Set `{}` as host role!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:100
+msgid "Aborted host role setup."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:105
+#, docstring
+msgid "Set the player role."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:108
+msgid "Are you sure you want to set `{}` as player role?"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:119
+msgid "Set `{}` as player role!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:121
+msgid "Aborted player role setup."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:126
+#, docstring
+msgid "Set the spectator role."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:129
+msgid "Are you sure you want to set `{}` as spectator role?"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:140
+msgid "Set `{}` as spectator role!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:142
+msgid "Aborted spectator role setup."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:147
+#, docstring
+msgid "Set the dead player role."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:150
+msgid "Are you sure you want to set `{}` as dead role?"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:161
+msgid "Set `{}` as dead role!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:163
+msgid "Aborted dead role setup."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:168
+#, docstring
+msgid "Set the replacement role."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:171
+msgid "Are you sure you want to set `{}` as replacement role?"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:183
+msgid "Set `{}` as replacement role!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:186
+msgid "Aborted replacement role setup."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:191
+#, docstring
+msgid "Set up all 5 required roles."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:223
+msgid "Host: {}\\nPlayer: {}\\nSpectator: {}\\nDead: {}\\nReplacement: {}"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:251
+#, docstring
+msgid "Set sign-ups channel."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:254
+msgid "Are you sure you want to set {} as sign-ups channel?"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:266
+msgid "Set as {} sign-ups channel!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:269
+msgid "Aborted sign-ups channel setup."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:274
+#, docstring
+msgid "Set channel for the bot to send night actions."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:283
+#, docstring
+msgid "Set up all required channels."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:311
+msgid "Sign-ups: {}\\nNight Actions: {}"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:332
+#, docstring
+msgid "Toggle `Can Change NA` setting."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:339
+msgid "Changed `Can Change NA` to `{}`."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:344
+#, docstring
+msgid "Set total number of players."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:348
+msgid "Set total players to `{}`."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:353
+#, docstring
+msgid "Lock TvM settings."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:361
+#, docstring
+msgid "Unlock TvM settings."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:370
+#, docstring
+msgid "Close sign-ups."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:379
+#, docstring
+msgid "Open sign-ups."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:387
+#, docstring
+msgid "Show all the TvM settings."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:443
+msgid ""
+"Host Role: {}\\nPlayer Role: {}\\nSpectator Role: {}\\nDead Player Role: "
+"{}\\nReplacement Role: {}\\nSign-ups Channel: {}\\nNight Action Channel: "
+"{}\\nCan Change NA: `{}`\\nTvM Settings Lock: `{}`\\nSign-ups Open: "
+"`{}`\\nTotal Players: `{}`\\nSign-ups: `{}`"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:469
+msgid ""
+"I don't have permission to embed messages. Please give me the permission!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:479
+#, docstring
+msgid "Sign up for the TvM!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:486
+msgid "Sign-ups are closed!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:489
+msgid "Maximum allowed players signed up!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:501
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:534
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:570
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:755
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:979
+msgid ""
+"I either don't have permissions to manage roles or the `{}` role is above my"
+" highest role!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:515
+#, docstring
+msgid "Spec the TvM!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:522
+msgid "You can't sign-out now. Contact the host."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:550
+#, docstring
+msgid "Sign-up as a replacement!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:558
+msgid "You can't sign up as replacement now. Contact the host."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:587
+#, docstring
+msgid ""
+"Randomly assign specified roles to people with `Player` role.\\n\\n        "
+"Number of roles should be equal to number of players.\\n        "
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:605
+msgid "Number of players is not equal to number of roles."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:614
+msgid "\\n**{}:** {}"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:622
+#, docstring
+msgid ""
+"Create private channels for users with player role.\\n\\n        You can "
+"specify category name for the player channels. If not\\n        specified, "
+"\\\"Players Chats\\\" will be used as default.\\n        "
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:641
+msgid "I don't have permissions to create a channel!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:674
+msgid "Created player channels!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:680
+#, docstring
+msgid "Create a mafia chat."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:700
+msgid "Created {}!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:706
+#, docstring
+msgid "Submit your night action!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:716
+msgid "{} Night Action"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:722
+msgid "You've already submitted a night action!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:725
+msgid " (Updated)"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:732
+msgid "**{}**\\n{}"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:744
+#, docstring
+msgid "Make the specified user a host!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:761
+msgid "Made `{}` a host!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:769
+#, docstring
+msgid "Create spectator chat or fix permissions of an existing channel."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:815
+#, docstring
+msgid "Create a category for a cycle with day, votes and night channels."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:825
+msgid ""
+"Are you sure you want to create cycle `{}` channels? Make sure you have the "
+"day text ready. Users will be able to talk in the day and vote channels as "
+"soon as they are created."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:837
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:920
+msgid "Process aborted."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:886
+msgid "Created cycle {} channels!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:893
+#, docstring
+msgid ""
+"Close day channels and open night channel.\\n\\n        Mentions the "
+"`Player` role.\\n        "
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:907
+msgid ""
+"Are you sure you want to start night {}? Make sure you have already posted "
+"the night starting text, minus the players ping, in the channel. I will ping"
+" players as soon as the channel is opened."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:944
+msgid "Night {} begins! {}"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:953
+msgid "**Night {} begins!**\\n\\n\\n\\n​"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:958
+msgid "Night {} channel opened."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:965
+#, docstring
+msgid "Kill player by removing player role and adding dead player role."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:973
+msgid "User doesn't have player role."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:997
+#, docstring
+msgid "Remove discrepancy between counted and actual sign-ups."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1011
+msgid "Synced total number of signed-up players."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1017
+#, docstring
+msgid "Clear various database settings."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1024
+#, docstring
+msgid "Clear the list of users who have submitted the NA this cycle."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1032
+#, docstring
+msgid "Remove the player role from database."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1040
+#, docstring
+msgid "Remove the spectator role from database."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1048
+#, docstring
+msgid "Remove the dead player role from database."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1056
+#, docstring
+msgid "Remove the replacement role from database."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1064
+#, docstring
+msgid "Remove the host role from database."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1072
+#, docstring
+msgid "Remove sign-ups channel from database."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1080
+#, docstring
+msgid "Remove night action channel from database."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1090
+#, docstring
+msgid "List of users with `Player` role."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1100
+msgid "Total Players: {}"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1116
+#, docstring
+msgid "List of users with `Replacement` role."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1126
+msgid "Total Replacements: {}"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1145
+#, docstring
+msgid ""
+"Count votes!\\n\\n        The bot can automatically detect voting channels. "
+"However,\\n        it may not be able to detect the correct channel in some "
+"cases.\\n        Please specify the vote channel in such cases!\\n        "
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1161
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1420
+msgid "I couldn't identify a voting channel. Please specify one explicitly."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1168
+msgid ""
+"That channel has too many messages! Please ask a host for manual vote count."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1174
+msgid "Empty channel!"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1226
+msgid "\\n{}. {} - {} ({})"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1230
+msgid "Vote Count"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1234
+msgid "__Counting from {} channel.__\\n\\n{}"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1251
+#, docstring
+msgid "Tell time elapsed since day/night channel was opened."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1267
+msgid "{} began about {} ago."
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1276
+#, docstring
+msgid ""
+"Used to fix the issue when the bot can't detect if game started.\\n\\n"
+"        `cycle_number` is the number of cycle currently on. Defaults to "
+"1.\\n        "
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1485
+msgid "day"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1485
+msgid "days"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1486
+msgid "hour"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1486
+msgid "hours"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1487
+msgid "minute"
+msgstr ""
+
+#: /Users/snowsee/Projects/tvm/tvm/tvm.py:1487
+msgid "minutes"
+msgstr ""
