@@ -110,7 +110,7 @@ Creates `signups` and `nachannel` channels and sets them as appropriate automati
 
 ### `-playerchats [category_name]`
 
-Sets up private channels for all players. It also sets up individual channels for players who are mafia. You can remove those manually. You can also specify a category name for the channels. Alias: `-pc [category_name]`
+Sets up private channels for all players. It also sets up individual channels for players who are mafia. Please do not remove the mafia channels. Anyone can view the list of all server channels by using a custom Discord client. You can also specify a category name for the channels. Alias: `-pc [category_name]`
 
 ### `-mafiachat <mafia1> [mafia2 [mafia3..]]`
 

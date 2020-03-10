@@ -67,7 +67,7 @@ The bot has a command to randomly assign a role to a player. See [`-rand <roles>
 
 Create `Player`, `Mafia` and `Spectator` chats.
 
-First, use the [`-playerchats`](commands-reference#-playerchats-category_name) command. It will also create channels for mafia members, as the bot doesn't know who is town and who is mafia. You can remove them manually.
+First, use the [`-playerchats`](commands-reference#-playerchats-category_name) command. It will also create channels for mafia members. Please do not remove the channels of mafia members. Anyone can view the list of all server channels by using a custom Discord client.
 
 Second, use [`-mafiachat <mafia1> [mafia2 [mafia3..]]`](commands-reference#-mafiachat-mafia1-mafia2-mafia3) command to create a mafia chat. Example of this command: `-mafiachat Arius#5544 Ligi @Siris#4421`
 
