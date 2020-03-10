@@ -1,11 +1,11 @@
 {
-	"author": "AriusX7",
+	"author": ["AriusX7"],
 	"description": "A cog with utility functions to make hosting TvMs easier.",
 	"install_msg": "Thank you for installing the TvM cog!",
 	"min_python_version": [3, 8, 0],
 	"permissions": [
-        "manage_channels",
-        "manage_roles",
+		"manage_channels",
+		"manage_roles",
 		"add_reactions",
 		"manage_messages",
 		"embed_links"
@@ -13,10 +13,10 @@
 	"short": "A cog to help with hosting TvMs.",
 	"tags": [
 		"tvm",
-        "games",
-        "mafia",
-        "town",
-        "werewolf"
+		"games",
+		"mafia",
+		"town",
+		"werewolf"
 	],
 	"type": "COG"
 }
