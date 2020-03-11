@@ -1,14 +1,16 @@
-# import logging
 import re
 import secrets
 from datetime import datetime, timedelta
+from typing import Union
 
 import discord
-from redbot.core import Config, commands
+from redbot.core import commands, Config
 from redbot.core.commands import Context
-from redbot.core.i18n import Translator, cog_i18n
+from redbot.core.i18n import cog_i18n, Translator
+from redbot.core.utils.menus import (
+    DEFAULT_CONTROLS, menu, start_adding_reactions
+)
 from redbot.core.utils.predicates import ReactionPredicate
-from redbot.core.utils.menus import start_adding_reactions
 
 from .utils import (
     TvMCommandFailure,
@@ -22,10 +24,7 @@ from .utils import (
     if_game_started
 )
 
-
 _ = Translator("TvM", __file__)
-
-# log = logging.getLogger("red.tvm")
 
 default_guild = {
     "host_id": None,
@@ -49,12 +48,25 @@ default_guild = {
     }
 }
 
+default_member = {
+    "notes": [
+        # structure of a note
+        # {
+        #     "note": None,
+        #     "reason": None
+        # }
+    ]
+}
+
 CHECK_MARK = "\N{WHITE HEAVY CHECK MARK}"
-vote_regex = re.compile(r"[\*_~|]*[Vv][Tt][Ll][\*_~|]* ([^\s\*_~|]+)")
-un_vote_regex = re.compile(
+
+VOTE_RE = re.compile(r"[\*_~|]*[Vv][Tt][Ll][\*_~|]* ([^\s\*_~|]+)")
+UN_VOTE_RE = re.compile(
     r"[\*_~|]*[Uu][Nn]-?[Vv][Tt][Ll][\*_~|]*\s?([^\s\*_~|]+)?"
 )
-no_vote_regex = re.compile(r"[\*_~|]*[Vv][Tt][Nn][Ll][\*_~|]*")
+NO_VOTE_RE = re.compile(r"[\*_~|]*[Vv][Tt][Nn][Ll][\*_~|]*")
+
+__version__ = "1.1.0"
 
 
 @cog_i18n(_)
@@ -68,6 +80,7 @@ class TvM(commands.Cog):
             self, "1_177_021_220", force_registration=True
         )
         self.config.register_guild(**default_guild)
+        self.config.register_member(**default_member)
 
     @commands.group(name="tvm")
     @if_host_or_admin()
@@ -1284,6 +1297,214 @@ class TvM(commands.Cog):
 
         await ctx.message.add_reaction(CHECK_MARK)
 
+    @commands.group(name="notes")
+    @commands.guild_only()
+    @if_in_private_channel()
+    async def _notes(self, ctx: Context):
+        """Save and view game specific notes."""
+        pass
+
+    @_notes.command(name="add")
+    async def _add_note(
+        self,
+        ctx: Context,
+        note: Union[discord.Message, str],
+        *,
+        reason: str = None
+    ):
+        """Save a game-specific note for future reference.
+
+        Note can either be a message link or text. If it is text,
+        please wrap it inside double quotes. You can also specify
+        a reason for adding the note.
+        """
+
+        if isinstance(note, discord.Message):
+            content = note.clean_content
+            author = str(note.author)
+            channel = note.channel.mention
+            jump_url = note.jump_url
+        else:
+            content = note
+            author = None
+            channel = None
+            jump_url = None
+
+        async with self.config.member(ctx.author).notes() as notes:
+            notes.append({
+                "note": content,
+                "reason": reason or "No reason",
+                "author": author,
+                "channel": channel,
+                "jump_url": jump_url
+            })
+
+        await ctx.message.add_reaction(CHECK_MARK)
+
+    @_notes.command(name="all")
+    async def _view_all_notes(self, ctx: Context):
+        """View all saved game-specific notes."""
+
+        author = ctx.author
+
+        note_infos = []
+
+        embed_links = ctx.channel.permissions_for(ctx.guild.me).embed_links
+
+        author_str = f"{author.name}'"
+
+        if author.name[-1].lower() != "s":
+            author_str += "s"
+
+        async with self.config.member(author).notes() as notes:
+            total = len(notes)
+            for page_num, note in enumerate(notes, start=1):
+                msg_info = ""
+                if note["author"]:
+                    msg_info += _("**Author:** {}").format(note["author"])
+                if note["channel"]:
+                    msg_info += _("\n**Channel:** {}").format(note["channel"])
+                if note["jump_url"]:
+                    if embed_links:
+                        msg_info += _(
+                            "\n[Click here to jump to message]({})"
+                        ).format(note["jump_url"])
+                    else:
+                        msg_info += _(
+                            "\n**Jump To Message:** {}"
+                        ).format(note["jump_url"])
+
+                note_info = _(
+                    "{}\n\n**Note:**\n```{}```\n**Reason:**\n```{}```"
+                ).format(
+                    msg_info,
+                    note["note"],
+                    note["reason"]
+                ).strip()
+
+                if embed_links:
+                    page = discord.Embed(
+                        colour=0xff0000,
+                        description=note_info,
+                        title=_("{} TvM Notes").format(author_str),
+                        timestamp=ctx.message.created_at
+                    )
+
+                    page.set_footer(
+                        text=_("Page {page_num}/{leng}").format(
+                            page_num=page_num, leng=total
+                        )
+                    )
+                else:
+                    page = _(
+                        "**{author} TvM Notes**"
+                        "\n\n{note}"
+                        "\n{footer}"
+                    ).format(
+                        author=author_str,
+                        note=note_info,
+                        footer=_("*Page {page_num}/{leng}*").format(
+                            page_num=page_num, leng=total
+                        )
+                    )
+
+                note_infos.append(page)
+
+        await menu(ctx, note_infos, DEFAULT_CONTROLS)
+
+    @_notes.command(name="view")
+    async def _view_note(self, ctx: Context, number: int):
+        """View saved game-specific note specified by number."""
+
+        author = ctx.author
+
+        embed_links = ctx.channel.permissions_for(ctx.guild.me).embed_links
+
+        author_str = f"{author.name}'"
+
+        if author.name[-1].lower() != "s":
+            author_str += "s"
+
+        async with self.config.member(author).notes() as notes:
+            try:
+                note = notes[number-1]
+            except IndexError:
+                return await ctx.send(
+                    _("Note number {} not found.").format(number)
+                )
+
+            msg_info = ""
+            if note["author"]:
+                msg_info += _("**Author:** {}").format(note["author"])
+            if note["channel"]:
+                msg_info += _("\n**Channel:** {}").format(note["channel"])
+            if note["jump_url"]:
+                if embed_links:
+                    msg_info += _(
+                        "\n[Click here to jump to message]({})"
+                    ).format(note["jump_url"])
+                else:
+                    msg_info += _(
+                        "\n**Jump To Message:** {}"
+                    ).format(note["jump_url"])
+
+            note_info = _(
+                "{}\n\n**Note:**\n```{}```\n**Reason:**\n```{}```"
+            ).format(
+                msg_info,
+                note["note"],
+                note["reason"]
+            ).strip()
+
+            if embed_links:
+                page = discord.Embed(
+                    colour=0xff0000,
+                    description=note_info,
+                    title=_("{} TvM Note #{}").format(author_str, number),
+                    timestamp=ctx.message.created_at
+                )
+                await ctx.send(embed=page)
+            else:
+                page = _(
+                    "**{author} TvM Note #{number}**"
+                    "\n\n{note}"
+                ).format(
+                    author=author_str,
+                    number=number,
+                    note=note_info
+                )
+                await ctx.send(page)
+
+    @_notes.command(name="total")
+    async def _total_notes(self, ctx: Context):
+        """Total number of saved game-specific notes."""
+
+        async with self.config.member(ctx.author).notes() as notes:
+            await ctx.send(_("You have {} notes saved.").format(len(notes)))
+
+    @_notes.command(name="removeall")
+    async def _remove_all_notes(self, ctx: Context):
+        """Remove all saved game-specific notes."""
+
+        async with self.config.member(ctx.author).notes() as notes:
+            notes.clear()
+
+        await ctx.message.add_reaction(CHECK_MARK)
+
+    @_notes.command(name="remove")
+    async def _remove_note(self, ctx: Context, number: int):
+        """Remove saved game-specific note specified by number."""
+
+        async with self.config.member(ctx.author).notes() as notes:
+            try:
+                notes.pop(number-1)
+            except IndexError:
+                return await ctx.send(
+                    _("Note number {} not found.").format(number)
+                )
+
+        await ctx.message.add_reaction(CHECK_MARK)
+
     async def check_na_channel(self, guild: discord.Guild):
         """Check if night action channel exists.
 
@@ -1437,15 +1658,15 @@ class TvM(commands.Cog):
         content = message.clean_content
         message
 
-        res = re.match(vote_regex, content)
+        res = re.match(VOTE_RE, content)
         if res:
             return res.group(1)
         else:
-            res = re.match(no_vote_regex, content)
+            res = re.match(NO_VOTE_RE, content)
         if res:
             return "VTNL"
         else:
-            res = re.match(un_vote_regex, content)
+            res = re.match(UN_VOTE_RE, content)
         if res:
             return "No vote"
 
