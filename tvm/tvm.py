@@ -1136,7 +1136,7 @@ class TvM(commands.Cog):
 
         guild = ctx.guild
 
-        repl_role = await self.role_from_config(guild, "player_id")
+        repl_role = await self.role_from_config(guild, "repl_id")
 
         repls = [
             user.mention for user in guild.members if repl_role in user.roles
