@@ -1178,8 +1178,7 @@ class TvM(commands.Cog):
             history = await channel.history(oldest_first=True).flatten()
             if len(history) > 100:
                 return await ctx.send(_(
-                    "I couldn't identify a voting channel."
-                    " Please specify one explicitly."
+                    "I couldn't identify a voting channel. Please specify one explicitly."
                 ))
         else:
             history = await channel.history(oldest_first=True).flatten()
@@ -1190,7 +1189,7 @@ class TvM(commands.Cog):
                 ))
 
         if len(history) < 1:
-            return await ctx.send(_("Empty channel!"))
+            return await ctx.send(_("{} is empty.").format(channel.mention))
 
         user_votes = {}
         player_role = guild.get_role(
@@ -1230,19 +1229,13 @@ class TvM(commands.Cog):
             votes["No vote"] = votes.pop("No vote")
         except KeyError:
             pass
-        # try:
-        #     votes["Vote couldn't be counted"] = votes.pop(
-        #         "Vote couldn't be counted"
-        #     )
-        # except KeyError:
-        #     pass
 
         txt = ""
 
         for i, vote in enumerate(votes, start=1):
             voters = votes[vote]
 
-            txt += _("\n{}. {} - {} ({})").format(
+            txt += _("\n{}. **{}** - {} ({})").format(
                 i, vote, len(voters), ", ".join(voters)
             )
 
