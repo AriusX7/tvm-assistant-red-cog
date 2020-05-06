@@ -70,6 +70,8 @@ NO_VOTE_RE = re.compile(r"[\*_~|]*[Vv][Tt][Nn][Ll][\*_~|]*")
 
 __version__ = "1.1.0"
 
+old_invite = None
+
 
 @cog_i18n(_)
 class TvM(commands.Cog):
@@ -1511,6 +1513,32 @@ class TvM(commands.Cog):
 
         await ctx.message.add_reaction(CHECK_MARK)
 
+    @commands.command(name="invite")
+    async def invite_(self, ctx: Context):
+        """Get TvM Assistant's invite url."""
+
+        perm_int = discord.Permissions(268494928)
+
+        data = await self.bot.application_info()
+        invite_url = discord.utils.oauth_url(data.id, permissions=perm_int)
+
+        value = (
+            f"Invite TvM Assistant to your bot by [clicking here]({invite_url})."
+            "\n\nInviting the bot will give it some management permissions. You can"
+            " review them when you use the link."
+        )
+
+        embed = discord.Embed(color=await ctx.embed_colour(), description=value)
+        embed.set_author(name=f"Invite TvM Assistant", icon_url=ctx.me.avatar_url)
+
+        try:
+            await ctx.send(embed=embed)
+        except discord.Forbidden:
+            return await ctx.send(
+                f"{invite_url}\n\nInviting the bot will give it some management permissions."
+                " You can review them when you use the link."
+            )
+
     async def check_na_channel(self, guild: discord.Guild):
         """Check if night action channel exists.
 
@@ -1724,3 +1752,22 @@ class TvM(commands.Cog):
                 strings.append(f"{int(period_value)} {unit}")
 
         return ", ".join(strings)
+
+    def cog_unload(self):
+        global old_invite
+        if old_invite:
+            try:
+                self.bot.remove_command("invite")
+            except Exception:
+                pass
+            self.bot.add_command(old_invite)
+
+
+async def setup(bot: Red):
+    global old_invite
+    old_invite = bot.get_command("invite")
+    if old_invite:
+        bot.remove_command("invite")
+
+    cog = TvM(bot)
+    bot.add_cog(cog)
