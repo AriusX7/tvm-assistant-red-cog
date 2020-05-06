@@ -10,7 +10,7 @@ from redbot.core.i18n import Translator, cog_i18n
 from redbot.core.utils.chat_formatting import escape, text_to_file
 
 
-_ = Translator("TvMLog", __file__)
+_ = Translator("Logging", __file__)
 
 default_guild = {
     "log_id": None,  # logging channel
@@ -51,8 +51,9 @@ def if_host_or_admin():
 
 
 @cog_i18n(_)
-class TvMLog(commands.Cog):
-    """Logging for TvMs!"""
+class TvMLog(commands.Cog, name="Logging"):
+    """Logging for TvMs. By default, the bot only logs messages from channels which
+    \r"everyone" can see. You can add channels to whitelist/blacklist to customise it."""
 
     def __init__(self, bot: Red):
         self.bot = bot
@@ -193,7 +194,7 @@ class TvMLog(commands.Cog):
             desc = f"Log channel: {guild.get_channel(log_id).mention}"
 
         embed = discord.Embed(
-            colour=0x00CDFF, title="TvM Log Settings", description=desc
+            colour=0x00CDFF, title="Log Settings", description=desc
         )
 
         embed.add_field(
