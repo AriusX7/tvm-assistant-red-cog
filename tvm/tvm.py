@@ -68,7 +68,7 @@ UN_VOTE_RE = re.compile(
 )
 NO_VOTE_RE = re.compile(r"[\*_~|]*[Vv][Tt][Nn][Ll][\*_~|]*")
 
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 
 old_invite = None
 
