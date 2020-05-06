@@ -22,7 +22,7 @@ Follow the steps below to quicky set up the bot for your game. You must have `ad
 
 ## Prerequisites
 
-Beginning with the bot setup, firstly, make sure you've [invited the bot](https://discordapp.com/api/oauth2/authorize?client_id=680383600725590020&permissions=268494928&scope=bot) to your TvM server. Secondly, check if the bot created a role named "TvM Assistant" with the following permissions:
+Beginning with the bot setup, firstly, make sure you've [invited the bot](https://discord.com/api/oauth2/authorize?client_id=680383600725590020&permissions=268494928&scope=bot) to your TvM server. Secondly, check if the bot created a role named "TvM Assistant" with the following permissions:
 
 - Manage Channels
 - Manage Roles
@@ -32,7 +32,7 @@ Beginning with the bot setup, firstly, make sure you've [invited the bot](https:
 - Embed Links
 - Add Reactions
 
-These permissions are necessary for the bot to work. If the role is missing, you can create a role manually or reinvite (after kicking) the bot using [this link](https://discordapp.com/api/oauth2/authorize?client_id=680383600725590020&permissions=268494928&scope=bot). If any permission is missing, please add it manually.
+These permissions are necessary for the bot to work. If the role is missing, you can create a role manually or reinvite (after kicking) the bot using [this link](https://discord.com/api/oauth2/authorize?client_id=680383600725590020&permissions=268494928&scope=bot). If any permission is missing, please add it manually.
 
 Now that the bot is the server and has the necessary permissions, let's begin the setup.
 
