@@ -160,9 +160,14 @@ class TvMHelpFormatter(RedHelpFormatter):
                 if prev_field:
                     prev_name = prev_field.name.replace("**", "")
                     name = field.name.replace("**", "")
-                    if prev_name in name:
+                    merge_str = f"{prev_field.value}{field.value}"
+                    if len(merge_str) > 1024:
+                        merge = False
+                    else:
+                        merge = True
+                    if prev_name in name and merge:
                         embed = embed.set_field_at(
-                            idx-1, name=f"**{prev_name}**", value=f"{prev_field.value}{field.value}"
+                            idx-1, name=f"**{prev_name}**", value=merge_str
                         )
                     else:
                         embed.add_field(**field._asdict())
