@@ -20,6 +20,8 @@ default_guild = {
 
 CHECK_MARK = "\N{WHITE HEAVY CHECK MARK}"
 
+__version__ = "1.0.0"
+
 
 class NotHostOrAdmin(CheckFailure):
     """Raised if member is not host or admin."""
