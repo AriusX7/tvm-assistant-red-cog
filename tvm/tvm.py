@@ -214,25 +214,25 @@ class TvM(commands.Cog):
         guild: discord.Guild = ctx.guild
 
         host = await guild.create_role(
-            name="Hosts", colour=discord.Color(0xFFBF37),
+            name="Host", colour=discord.Color(0xFFBF37),
             hoist=True, mentionable=True
         )
         await self.config.guild(guild).host_id.set(host.id)
         await ctx.author.add_roles(host)
 
         player = await guild.create_role(
-            name="Players", colour=discord.Color(0x37BFFF),
+            name="Player", colour=discord.Color(0x37BFFF),
             hoist=True, mentionable=True
         )
         await self.config.guild(guild).player_id.set(player.id)
 
         repl = await guild.create_role(
-            name="Replacements", colour=discord.Color(0x86FF40)
+            name="Replacement", colour=discord.Color(0x86FF40)
         )
         await self.config.guild(guild).repl_id.set(repl.id)
 
         spec = await guild.create_role(
-            name="Spectators", colour=discord.Color(0xD837FF)
+            name="Spectator", colour=discord.Color(0xD837FF)
         )
         await self.config.guild(guild).spec_id.set(spec.id)
 
@@ -330,11 +330,9 @@ class TvM(commands.Cog):
         await self.config.guild(guild).na_channel_id.set(nightaction.id)
 
         txt = _(
-            "Sign-ups: {}"
-            "\nNight Actions: {}"
+            "Sign-ups: {}\nNight Actions: {}"
         ).format(
-            signup.mention,
-            nightaction.mention,
+            signup.mention, nightaction.mention,
         )
 
         embed = discord.Embed(
