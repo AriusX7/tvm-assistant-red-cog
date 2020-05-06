@@ -1,1 +1,1 @@
-from .tvm import setup
+from .tvm import setup  # noqa: F401
