@@ -5,6 +5,7 @@ from typing import Union
 
 import discord
 from redbot.core import commands, Config
+from redbot.core.bot import Red
 from redbot.core.commands import Context
 from redbot.core.i18n import cog_i18n, Translator
 from redbot.core.utils.menus import (
@@ -12,6 +13,7 @@ from redbot.core.utils.menus import (
 )
 from redbot.core.utils.predicates import ReactionPredicate
 
+from .bothelp import TvMHelpFormatter
 from .utils import (
     TvMCommandFailure,
     tvmset_lock,
@@ -71,16 +73,20 @@ __version__ = "1.1.0"
 
 @cog_i18n(_)
 class TvM(commands.Cog):
-    """Class for TvM commands and related functions."""
+    """Set up the bot for your server by following the quickstart guide:
+    \r https://ariusx7.github.io/tvm-assistant/quickstart
+    """
 
-    def __init__(self, bot):
-        # self.bot = bot
+    def __init__(self, bot: Red):
+        self.bot = bot
 
         self.config = Config.get_conf(
             self, "1_177_021_220", force_registration=True
         )
         self.config.register_guild(**default_guild)
         self.config.register_member(**default_member)
+
+        self.bot._help_formatter = TvMHelpFormatter(self.bot)
 
     @commands.group(name="tvm")
     @if_host_or_admin()
