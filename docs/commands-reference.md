@@ -26,9 +26,9 @@ Sign-up for the TvM. Automatically assigns the Player role and removes Spec and 
 
 *Hosts, don't use this command.*
 
-### `-out [ignored]`
+### `-spec [ignored]`
 
-Sign-out of the TvM or spectate it. Automatically assigns the Spectator role and removes Player and Replacement roles, if necessary. You can type anything you want after `-out`. Alias: `-spec`
+Sign-out of the TvM or spectate it. Automatically assigns the Spectator role and removes Player and Replacement roles, if necessary. You can type anything you want after `-spec`. Aliases: `-out`, `-spectator`
 
 *Hosts, don't use this command.*
 

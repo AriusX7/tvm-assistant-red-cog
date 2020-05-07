@@ -527,7 +527,7 @@ class TvM(commands.Cog):
 
             await ctx.message.add_reaction(CHECK_MARK)
 
-    @commands.command(name="out", aliases=["spec", "spectator"])
+    @commands.command(name="spec", aliases=["out", "spectator"])
     @commands.guild_only()
     @if_player_and_spec_roles_exist()
     async def _sign_out(self, ctx: Context, *, ignored: str = None):
