@@ -43,7 +43,7 @@ default_guild = {
     "signed": 0,
     "na_submitted": [],
     "cycle": {
-        "number": 0,
+        "number": None,
         "day": None,
         "vote": None,
         "night": None
@@ -530,6 +530,9 @@ class TvM(commands.Cog):
         channel: discord.TextChannel = ctx.channel
         author: discord.Member = ctx.author
 
+        if await self.config.guild(guild).get_raw("cycle", "number") is not None:
+            return await ctx.send(_("You can't do that. The game has already started!"))
+
         if not await self.config.guild(guild).signups_on():
             return await ctx.send(_("Sign-ups are closed!"))
 
@@ -566,6 +569,9 @@ class TvM(commands.Cog):
         channel: discord.TextChannel = ctx.channel
         author: discord.Member = ctx.author
 
+        if await self.config.guild(guild).get_raw("cycle", "number") is not None:
+            return await ctx.send(_("You can't do that. The game has already started!"))
+
         if not await self.config.guild(guild).signups_on():
             await ctx.send(_("You can't sign-out now. Contact the host."))
             return
@@ -600,6 +606,9 @@ class TvM(commands.Cog):
         guild: discord.Guild = ctx.guild
         channel: discord.TextChannel = ctx.channel
         author: discord.Member = ctx.author
+
+        if await self.config.guild(guild).get_raw("cycle", "number") is not None:
+            return await ctx.send(_("You can't do that. The game has already started!"))
 
         if not await self.config.guild(guild).signups_on():
             return await ctx.send(
