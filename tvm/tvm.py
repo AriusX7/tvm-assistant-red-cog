@@ -298,6 +298,36 @@ class TvM(commands.Cog):
 
         await ctx.message.add_reaction(CHECK_MARK)
 
+    @_tvm.command(name="hostchannel")
+    @tvmset_lock()
+    async def _host_channel(self, ctx: Context, *, channel: discord.TextChannel):
+        """Create host channel."""
+
+        guild: discord.Guild = ctx.guild
+
+        host_role = await self.role_from_config(guild, "host_id")
+
+        overwrites = {
+            guild.default_role: discord.PermissionOverwrite(
+                read_messages=False
+            ),
+            host_role: discord.PermissionOverwrite(
+                read_messages=True,
+                send_messages=True
+            ),
+            guild.me: discord.PermissionOverwrite(
+                read_messages=True,
+                send_messages=True,
+                add_reactions=True
+            )
+        }
+
+        host_channel = await guild.create_text_channel(
+            "host", overwrites=overwrites
+        )
+
+        await ctx.send(_("Created {} channel for hosts.").format(host_channel.mention))
+
     @_tvm.command(name="setchannels")
     @tvmset_lock()
     async def _set_channels(self, ctx: Context):
