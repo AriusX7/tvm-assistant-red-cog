@@ -299,8 +299,7 @@ class TvM(commands.Cog):
         await ctx.message.add_reaction(CHECK_MARK)
 
     @_tvm.command(name="hostchannel")
-    @tvmset_lock()
-    async def _host_channel(self, ctx: Context, *, channel: discord.TextChannel):
+    async def _host_channel(self, ctx: Context):
         """Create host channel."""
 
         guild: discord.Guild = ctx.guild
