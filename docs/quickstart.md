@@ -79,6 +79,8 @@ You can edit the name of player and mafia channels. You can move channels across
 
 Thirdly, use [`-specchat [channel]`](commands-reference#-specchat-channel) command to create a spectator chat. People with `Spectator` and `Dead` roles can see the spec chat. You can change specchat name, permissions, etc., without any unintended consequences.
 
+Now that we have all channels ready, use `-tvm signclose` command to disable sign-ups. It is important that you do it because if you don't, signed up players may be able to use `-spec` command to get access to `Spectator` chat mid-game. While the bot has checks that ensure that players aren't able to do that after the game starts, sometimes the bot may not be able to detect that the game started.
+
 By now, you would have set up all the user channels. Use the commands below only after you've given users their role, flavor, etc., and are ready to start the game.
 
 ## Step 6
