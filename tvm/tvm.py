@@ -909,10 +909,7 @@ class TvM(commands.Cog):
     @if_host_or_admin()
     @if_player_role_exists()
     async def _night(self, ctx: Context):
-        """Close day channels and open night channel.
-
-        Mentions the `Player` role.
-        """
+        """Close day channels and open night channel."""
 
         guild: discord.Guild = ctx.guild
 
@@ -940,6 +937,7 @@ class TvM(commands.Cog):
         vote = guild.get_channel(cycle['vote'])
         night = guild.get_channel(cycle['night'])
 
+        night_overwrites = day.overwrites
         day_overwrites = {
             guild.default_role: discord.PermissionOverwrite(
                 read_messages=True,
@@ -950,7 +948,7 @@ class TvM(commands.Cog):
 
         await day.edit(overwrites=day_overwrites)
         await vote.edit(overwrites=day_overwrites)
-        await night.edit(overwrites=None)
+        await night.edit(overwrites=night_overwrites)
 
         na_channel = await self.check_na_channel(guild)
         if not na_channel:
