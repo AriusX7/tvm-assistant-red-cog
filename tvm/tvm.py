@@ -1235,9 +1235,12 @@ class TvM(commands.Cog):
         for i, vote in enumerate(votes, start=1):
             voters = votes[vote]
 
-            txt += _("\n{}. **{}** - {} ({})").format(
-                i, vote, len(voters), ", ".join(voters)
-            )
+            if vote == "VTNL":
+                txt += _("\n\n**{}** - {} ({})").format(vote, len(voters), ", ".join(voters))
+            elif vote == "No vote":
+                txt += _("\n\n**Not voting** - {} ({})").format(len(voters), ", ".join(voters))
+            else:
+                txt += _("\n{}. **{}** - {} ({})").format(i, vote, len(voters), ", ".join(voters))
 
         title = _("Vote Count")
 
@@ -1252,7 +1255,7 @@ class TvM(commands.Cog):
             await ctx.send(embed=embed)
         except discord.Forbidden:
             await ctx.send(
-                f"**{title}**\n__Counting from {channel.mention}"
+                f"**{title}**\n\n__Counting from {channel.mention}"
                 f" channel.__\n\n{txt.strip()}"
             )
 
