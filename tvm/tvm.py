@@ -925,9 +925,7 @@ class TvM(commands.Cog):
         msg = await ctx.send(
             _(
                 "Are you sure you want to start night {}? Make sure you"
-                " have already posted the night starting text, minus the"
-                " players ping, in the channel. I will ping players as soon"
-                " as the channel is opened."
+                " have already posted the night starting text."
             ).format(number)
         )
         start_adding_reactions(msg, ReactionPredicate.YES_OR_NO_EMOJIS)
@@ -957,15 +955,6 @@ class TvM(commands.Cog):
         na_channel = await self.check_na_channel(guild)
         if not na_channel:
             na_channel = await self.create_na_channel(guild)
-
-        try:
-            await night.send(
-                _("Night {} begins! {}").format(
-                    number, f"<@&{data['player_id']}>"
-                )
-            )
-        except discord.Forbidden:
-            pass
 
         try:
             await na_channel.send(
