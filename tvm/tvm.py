@@ -861,8 +861,7 @@ class TvM(commands.Cog):
         overwrites = {
             guild.default_role: discord.PermissionOverwrite(
                 read_messages=True,
-                send_messages=False,
-                add_reactions=False,
+                send_messages=False
             ),
             player_role: discord.PermissionOverwrite(
                 send_messages=True,
