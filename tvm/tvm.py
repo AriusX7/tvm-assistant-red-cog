@@ -1557,6 +1557,25 @@ class TvM(commands.Cog):
                 " You can review them when you use the link."
             )
 
+    @commands.command(name="count")
+    async def _count(
+        self, ctx: Context, user: discord.Member, channel: discord.TextChannel = None
+    ):
+        """Counts messages sent the user in a channel. Defaults to the current channel."""
+
+        if not channel:
+            channel = ctx.channel
+
+        count = 0
+        async with ctx.typing():
+            async for message in channel.history(limit=None):
+                if message.author.id == user.id:
+                    count += 1
+
+        await ctx.send(_(
+            "{} has sent **{}** messages in {} channel."
+        ).format(user.name, count, channel.mention))
+
     async def check_na_channel(self, guild: discord.Guild):
         """Check if night action channel exists.
 
