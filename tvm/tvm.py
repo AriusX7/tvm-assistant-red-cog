@@ -1535,7 +1535,7 @@ class TvM(commands.Cog):
         await ctx.message.add_reaction(CHECK_MARK)
 
     @commands.command(name="invite")
-    async def invite_(self, ctx: Context):
+    async def _invite(self, ctx: Context):
         """Get TvM Assistant's invite url."""
 
         perm_int = discord.Permissions(268494928)
@@ -1792,9 +1792,7 @@ class TvM(commands.Cog):
 
         return uservotes
 
-    def is_day(
-        self, day_channel: discord.TextChannel, player: discord.Role
-    ):
+    def is_day(self, day_channel: discord.TextChannel, player: discord.Role):
         """Checks whether it is day. Returns True if it is."""
 
         if day_channel.overwrites_for(player).send_messages:
