@@ -13,7 +13,7 @@ from redbot.core.utils.menus import (
 )
 from redbot.core.utils.predicates import ReactionPredicate
 
-from .bothelp import TvMHelpFormatter
+from .bothelp import COMMANDS_REFERENCE, QUICKSTART, TvMHelpFormatter
 from .utils import (
     TvMCommandFailure,
     tvmset_lock,
@@ -71,6 +71,9 @@ NO_VOTE_RE = re.compile(r"[\*_~|]*[Vv][Tt][Nn][Ll][\*_~|]*")
 __version__ = "1.2.0"
 
 old_invite = None
+old_info = None
+
+SOURCE_CODE = "https://github.com/AriusX7/tvm-assistant"
 
 
 @cog_i18n(_)
@@ -1576,6 +1579,39 @@ class TvM(commands.Cog):
             "{} has sent **{}** messages in {} channel."
         ).format(user.name, count, channel.mention))
 
+    @commands.command(name="info")
+    async def _info(self, ctx: Context):
+        """Shows info about the bot."""
+
+        embed = discord.Embed(colour=await ctx.embed_colour())
+
+        perm_int = discord.Permissions(268494928)
+
+        data = await self.bot.application_info()
+        invite_url = discord.utils.oauth_url(data.id, permissions=perm_int)
+
+        embed.description = (
+            "TvM Assistant is a Discord bot with utility commands to make hosting TvMs easier."
+            "\n\nSome of the bot features include:"
+            "\n\n- Setup roles and channel creation"
+            "\n- Management of sign-ups, sign-outs, spectators and replacements"
+            "\n- In-built logging to detect and ignore private channels"
+            "\n- Quick creation of player, mafia and spectator chats"
+            "\n- Vote counts and time since day/night started"
+        )
+
+        links = (
+            f"\n- [Invite to your server]({invite_url})"
+            f"\n- [Quickstart]({QUICKSTART})"
+            f"\n- [Commands Reference]({COMMANDS_REFERENCE})"
+            f"\n- [Source Code]({SOURCE_CODE})"
+        )
+
+        embed.add_field(name="\u200b\nQuick Links", value=links)
+        embed.set_author(name=f"About {ctx.me.name}", icon_url=ctx.me.avatar_url)
+
+        await ctx.send(embed=embed)
+
     async def check_na_channel(self, guild: discord.Guild):
         """Check if night action channel exists.
 
@@ -1799,12 +1835,25 @@ class TvM(commands.Cog):
                 pass
             self.bot.add_command(old_invite)
 
+        global old_info
+        if old_info:
+            try:
+                self.bot.remove_command("info")
+            except Exception:
+                pass
+            self.bot.add_command(old_info)
+
 
 async def setup(bot: Red):
     global old_invite
     old_invite = bot.get_command("invite")
     if old_invite:
         bot.remove_command("invite")
+
+    global old_info
+    old_info = bot.get_command("info")
+    if old_info:
+        bot.remove_command("info")
 
     cog = TvM(bot)
     bot.add_cog(cog)
