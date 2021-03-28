@@ -1,3 +1,7 @@
+<p align="center">
+  ⚠️ The Red cog is no longer maintained, see <a href="https://github.com/AriusX7/tvm-assistant">TvM Assistant</a> for the rewrite. ⚠️
+ </p>
+
 <h1 align="center">
   <br>
   <a href="https://ariusx7.github.io/tvm-assistant/">
